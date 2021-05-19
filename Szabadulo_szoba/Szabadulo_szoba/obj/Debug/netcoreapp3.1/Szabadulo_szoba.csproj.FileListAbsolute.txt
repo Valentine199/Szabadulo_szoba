@@ -1,0 +1,15 @@
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.exe
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\szobaInit.txt
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\targyInit.txt
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.deps.json
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.runtimeconfig.json
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.runtimeconfig.dev.json
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.dll
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.pdb
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.csprojAssemblyReference.cache
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.AssemblyInfoInputs.cache
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.AssemblyInfo.cs
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.csproj.CoreCompileInputs.cache
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.dll
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.pdb
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.genruntimeconfig.cache

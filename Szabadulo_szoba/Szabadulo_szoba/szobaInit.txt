@@ -1,0 +1,3 @@
+id;neve;leirasa
+0;nappali;A nappaliban vagy. Itt található egy szekrény. Nyugatra látsz egy ajtót.
+1;fürdőszoba;A fürdőszobában vagy. Itt található egy kád.
