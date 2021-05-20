@@ -15,6 +15,7 @@ namespace Szabadulo_szoba
         public bool nyithato { get;}
         public bool huzhato { get; }
         public bool torheto { get;}
+        public bool lathato { get; set; }
         private List<string> kapcsolat = new List<string>();
         public List<string> Kapcsolat { get => kapcsolat; set => kapcsolat = value; }
 
@@ -32,8 +33,8 @@ namespace Szabadulo_szoba
             this.nyithato = (data[5] == "1");
             this.huzhato = (data[6] == "1");
             this.torheto = (data[7] == "1");
-
-            for (int i = 8; i < data.Length; i++)
+            this.lathato= (data[8] == "1");
+            for (int i = 9; i < data.Length; i++)
             {
                 kapcsolat.Add(data[i]);
             }

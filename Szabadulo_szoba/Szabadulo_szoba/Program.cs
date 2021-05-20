@@ -13,8 +13,21 @@ namespace Szabadulo_szoba
         static void Main()
         {
             Inicializalas();
+            bool nyert = false;
+
+            /*var tartalom = Program.haz.Select(x => new { x.Tartalma, x.id }).Where(y => y.id == jatekos.Helye).First();
+
+            if(tartalom.Tartalma.Select(x=> x.neve).Contains("szekrény"))
+            {
+                Console.WriteLine(tartalom.Tartalma.Select(x=> x.leiras).First());
+            }*/
+
 
             Console.WriteLine("Adjon meg egy parancsot");
+            do
+            {
+
+            
             string beadott = Console.ReadLine();
            string[] ertelmezett = ertelmezes(beadott);
 
@@ -24,9 +37,32 @@ namespace Szabadulo_szoba
                 case "nézd":
                     Console.WriteLine(jatekos.Nezd(ertelmezett[1]));
                     break;
+                case "Nyisd":
+                case "nyisd":
+                    if (ertelmezett[1]=="")
+                    {
+                        Console.WriteLine("Mit nyissak ki?");
+                    }
+                    else if(targyak.Where(x => x.neve == ertelmezett[1]).First().nyithato)
+                    {
+                        jatekos.Nyisd(ertelmezett[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"A {targyak.Where(x => x.neve == ertelmezett[1]).First().neve} nem nyitható");
+                    }
+                    break;
+                case "Tedd":
+                case "tedd":
+                case "Vedd":
+                case "vedd":
+                        jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                        break;
                 default:
+                        Console.WriteLine("Ilyen parancsot nem ismerek.");
                     break;
             }
+            } while (!nyert);
 
 
         }
@@ -40,6 +76,7 @@ namespace Szabadulo_szoba
             string parancs = "";
             string mit = "";
             string mivel = "";
+            string hova = "";
 
             for (int i = 0; i < ertelmezett.Length; i++)
             {
@@ -54,7 +91,11 @@ namespace Szabadulo_szoba
                         mit = ertelmezett[i];
                     }
                 }
-                else
+                else if(ertelmezett[i]=="fel"||ertelmezett[i]=="le")
+                {
+                    hova = ertelmezett[i];
+                }
+                else if(parancs =="")
                 {
                     parancs = ertelmezett[i];
                 }
