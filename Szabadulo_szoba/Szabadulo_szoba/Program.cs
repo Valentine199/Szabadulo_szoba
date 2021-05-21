@@ -14,15 +14,7 @@ namespace Szabadulo_szoba
         {
             Inicializalas();
             bool nyert = false;
-
-            /*var tartalom = Program.haz.Select(x => new { x.Tartalma, x.id }).Where(y => y.id == jatekos.Helye).First();
-
-            if(tartalom.Tartalma.Select(x=> x.neve).Contains("szekrény"))
-            {
-                Console.WriteLine(tartalom.Tartalma.Select(x=> x.leiras).First());
-            }*/
-
-
+            
             Console.WriteLine("Adjon meg egy parancsot");
             do
             {
@@ -33,6 +25,12 @@ namespace Szabadulo_szoba
 
             switch (ertelmezett[0])
             {
+                case "leltar":
+                case "Leltár":
+                case "leltár":
+                        jatekos.Leltaram();
+                        break;
+
                 case "Nézd":
                 case "nézd":
                     Console.WriteLine(jatekos.Nezd(ertelmezett[1]));
@@ -101,7 +99,7 @@ namespace Szabadulo_szoba
                 }
 
             }
-            string[] vegrehajtas = { parancs, mit, mivel, };
+            string[] vegrehajtas = { parancs, mit, mivel, hova};
             return vegrehajtas;
         }
 

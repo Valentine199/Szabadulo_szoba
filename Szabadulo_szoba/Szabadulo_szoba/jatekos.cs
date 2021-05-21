@@ -13,10 +13,25 @@ namespace Szabadulo_szoba
         public string Helye { get => helye; set => helye = value; }
         internal List<targy> Leltar { get => leltar; set => leltar = value; }
 
+        public void Leltaram()
+        {
+            if(Leltar.Count>0)
+            {
+                foreach (var item in Leltar)
+                {
+                    Console.WriteLine(item.neve);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nincs semmi a leltáramban.");
+            }
+        }
+
         public string Nezd(string nev)
         {
-            
-            if(nev !="")
+
+            if (nev != "")
             {
                 if (Program.targyak.Where(x => x.neve == nev).First().lathato == true)
                 {
@@ -60,32 +75,65 @@ namespace Szabadulo_szoba
                     break;
             }
         }
-       public void TargyMozgatas(string nev, string irany)
+        public void TargyMozgatas(string nev, string irany)
         {
-            var HazTartalom = Program.haz.Select(x => new { x.Tartalma, x.id}).Where(y=> y.id==Helye).First();
-            if (irany == "fel")
+            if (Program.targyak.Where(x => x.neve == nev).First().felveheto)
             {
-                if (HazTartalom.Tartalma.Select(x => x.neve).Contains(nev))
+                //egyszerüsíhető
+                var HazTartalom = Program.haz.Select(x => new { x.Tartalma, x.id }).Where(y => y.id == Helye).First();
+                if (irany == "fel")
                 {
-                    for (int i = 0; i < HazTartalom.Tartalma.Count; i++)
+                    if (HazTartalom.Tartalma.Select(x => x.neve).Contains(nev))
                     {
-                        if(HazTartalom.Tartalma[i].neve==nev)
+                        var szoba = Program.haz.Select(x => x).Where(x => x.id == Helye).First();
+                        var kivetendo = szoba.Tartalma.IndexOf(szoba.Tartalma.Where(x => x.neve == nev).First());
+                        Leltar.Add(szoba.Tartalma.Where(x => x.neve == nev).First());
+                        szoba.Tartalma.RemoveAt(kivetendo);
+                        Console.WriteLine($"Felvettem a(z) {nev}-t");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"A(z) {nev} nem itt van.");
+                    }
+                }
+                else if (irany == "le")
+                {
+                    if (Leltar.Count > 0)
+                    {
+                        if (Leltar.Select(x => x.neve).Contains(nev))
                         {
-                            HazTartalom.Tartalma.Remove(HazTartalom.Tartalma[i]);
+                            int index = Leltar.IndexOf(Leltar.Where(x => x.neve == nev).First());
+                            var szoba = Program.haz.Select(x => x).Where(x => x.id == Helye).First();
+                            szoba.Tartalma.Add(Leltar.Where(x => x.neve == nev).First());
+                            Leltar.RemoveAt(index);
+                            Console.WriteLine($"Letettem a(z) {nev}-t");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ez nincs a leltáramban");
                         }
                     }
-                    Leltar.Add(Program.targyak.Select(x => x = x).Where(x => x.neve == nev).First());
-                    int a = 12;
+                    else
+                    {
+                        Console.WriteLine($"Nincs semmi a Leltáramban");
+                    }
+                }
+
+
+            }
+            else
+            {
+                if (Program.targyak.Select(x => x.neve).Contains(nev))
+                {
+                    Console.WriteLine($"A(z) {nev} nem mozgatható");
+                }
+                else
+                {
+                    Console.WriteLine($"A(z) {nev} nem található");
                 }
             }
-            else if (Leltar.Select(x => x.neve).Contains(nev))
-            {
 
-            }
-            
-           
+
         }
-        
-
     }
 }
