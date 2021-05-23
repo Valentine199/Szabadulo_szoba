@@ -4,9 +4,9 @@ Jobb elérés az inicializálásnál
 
 
 Az irányok csak nagy kezdőbetűvel elfogadottak.
-Nézd kád után nem látható a feszítővas
+
 Nem kell a leltárban lennie egy tárgynak ahhoz, hogy használjam
-Beragadsz a fürdőszobába
+
 másik szobából láthatóak dolgok.
 felseleges .where()-ek
-nézd stringet ad vissza kiiratás helyett.
+

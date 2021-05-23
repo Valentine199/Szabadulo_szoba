@@ -190,7 +190,7 @@ namespace Szabadulo_szoba
         }
         public void Tores(string mit, string mivel)
         {
-            if(Program.targyak.Where(x=> x.neve == mit).First().lathato && Program.targyak.Where(x => x.neve == mivel).First().lathato)
+            if(Program.targyak.Where(x=> x.neve == mit).First().lathato || Program.targyak.Where(x => x.neve == mivel).First().lathato)
             {
                 switch (mit)
                 {
@@ -235,14 +235,15 @@ namespace Szabadulo_szoba
                     switch (Helye)
                     {
                         case "0":
-                            if(Program.targyak.First(x=> x.neve == "ablak").lathato)
-                            {
-                                Console.WriteLine("Északra nem mehetek, útban van az ablak");
-                            }
-                            else if(Program.haz.First(x=> x.id==Helye).eszak)
+                            
+                            if(Program.haz.First(x=> x.id==Helye).eszak)
                             {
                                 Console.WriteLine("Gratulálunk, sikerült megszöknöd.");
                                 Program.nyert = true;
+                            }
+                            else if (Program.targyak.First(x => x.neve == "ablak").lathato)
+                            {
+                                Console.WriteLine("Északra nem mehetek, útban van az ablak");
                             }
                             else
                             {
@@ -285,7 +286,8 @@ namespace Szabadulo_szoba
                             }
                             break;
                         case "1":
-                            Console.WriteLine("Nyugatra nincs kijárat.");
+                            Helye = "0";
+                            Console.WriteLine(Program.haz.Where(x => x.id == Helye).First().leiras);
                             break;
                         default:
                             break;

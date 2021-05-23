@@ -13,9 +13,7 @@ namespace Szabadulo_szoba
        public static bool nyert = false;
         static void Main()
         {
-            Inicializalas();
-            
-            
+            Inicializalas();            
             Console.WriteLine("Adjon meg egy parancsot");
             do
             {
@@ -97,7 +95,7 @@ namespace Szabadulo_szoba
             }
             } while (!nyert);
 
-
+            Console.ReadKey();
         }
 
         private static string[] ertelmezes(string beadott)
