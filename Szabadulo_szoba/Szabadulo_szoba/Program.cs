@@ -10,10 +10,11 @@ namespace Szabadulo_szoba
        public static jatekos jatekos = new jatekos();
        public static List<targy> targyak = new List<targy>();
        public static List<szoba> haz = new List<szoba>();
+       public static bool nyert = false;
         static void Main()
         {
             Inicializalas();
-            bool nyert = false;
+            
             
             Console.WriteLine("Adjon meg egy parancsot");
             do
@@ -85,6 +86,11 @@ namespace Szabadulo_szoba
                             Console.WriteLine($"A(z) {ertelmezett[1]} nem törhető");
                         }
                         break;
+                case "Menj":
+                case "menj":
+                        jatekos.Menni(ertelmezett[4]);
+                        break;
+
                 default:
                         Console.WriteLine("Ilyen parancsot nem ismerek.");
                     break;
@@ -104,6 +110,7 @@ namespace Szabadulo_szoba
             string mit = "";
             string mivel = "";
             string hova = "";
+            string irany = "";
 
             for (int i = 0; i < ertelmezett.Length; i++)
             {
@@ -122,13 +129,17 @@ namespace Szabadulo_szoba
                 {
                     hova = ertelmezett[i];
                 }
+                else if(ertelmezett[i] == "Észak" || ertelmezett[i] == "Dél" || ertelmezett[i] == "Kelet" || ertelmezett[i] == "Nyugat")
+                {
+                    irany = ertelmezett[i];
+                }
                 else if(parancs =="")
                 {
                     parancs = ertelmezett[i];
                 }
 
             }
-            string[] vegrehajtas = { parancs, mit, mivel, hova};
+            string[] vegrehajtas = { parancs, mit, mivel, hova, irany};
             return vegrehajtas;
         }
 

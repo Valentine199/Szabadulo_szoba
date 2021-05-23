@@ -19,7 +19,7 @@ namespace Szabadulo_szoba
             {
                 foreach (var item in Leltar)
                 {
-                    Console.WriteLine(item.neve);
+                    Console.WriteLine("--> " + item.neve);
                 }
             }
             else
@@ -35,12 +35,17 @@ namespace Szabadulo_szoba
             {
                 if (Program.targyak.Where(x => x.neve == nev).First().lathato == true)
                 {
+                    if (nev == "kád")
+                    {
+                        Program.targyak.First(x => x.neve == "feszítővas").lathato = true;
+                    }
                     return Program.targyak.Where(x => x.neve == nev).First().leiras;
                 }
                 return $"Nem látok {Program.targyak.Where(x => x.neve == nev).First().neve}-(a)t";
             }
             else
             {
+                
                 return Program.haz.Where(x => x.id == Helye).First().leiras;
             }
         }
@@ -110,7 +115,7 @@ namespace Szabadulo_szoba
             {
                 //egyszerüsíhető
                 var HazTartalom = Program.haz.Select(x => new { x.Tartalma, x.id }).Where(y => y.id == Helye).First();
-                if (irany == "fel")
+                if (irany == "fel" ||irany =="Fel")
                 {
                     if (HazTartalom.Tartalma.Select(x => x.neve).Contains(nev))
                     {
@@ -125,7 +130,7 @@ namespace Szabadulo_szoba
                         Console.WriteLine($"A(z) {nev} nem itt van.");
                     }
                 }
-                else if (irany == "le")
+                else if (irany == "le" || irany =="Le")
                 {
                     if (Leltar.Count > 0)
                     {
@@ -220,6 +225,75 @@ namespace Szabadulo_szoba
             else
             {
                 Console.WriteLine("Nem látom ezeket a tárgyakat.");
+            }
+        }
+        public void Menni(string irany)
+        {
+            switch (irany)
+            {
+                case "Észak":
+                    switch (Helye)
+                    {
+                        case "0":
+                            if(Program.targyak.First(x=> x.neve == "ablak").lathato)
+                            {
+                                Console.WriteLine("Északra nem mehetek, útban van az ablak");
+                            }
+                            else if(Program.haz.First(x=> x.id==Helye).eszak)
+                            {
+                                Console.WriteLine("Gratulálunk, sikerült megszöknöd.");
+                                Program.nyert = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Északra csak a szekrény van");
+                            }
+                            break;
+                        case "1":
+                            Console.WriteLine("Északra nincs kijárat.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Kelet":
+                    switch (Helye)
+                    {
+                        case "0":
+                            Console.WriteLine("Keletre nincs kijárat ");
+                            break;
+                        case "1":
+                            Helye = "0";
+                            Console.WriteLine(Program.haz.Where(x => x.id == Helye).First().leiras);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Nyugat":
+                    switch (Helye)
+                    {
+                        case "0":
+                            if(Program.haz.Where(x => x.id==Helye).First().nyugat)
+                            {
+                                Helye = "1";
+                                Console.WriteLine(Program.haz.Where(x => x.id == Helye).First().leiras);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nem tudok arra menni, zárva van az ajtó.");
+                            }
+                            break;
+                        case "1":
+                            Console.WriteLine("Nyugatra nincs kijárat.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    Console.WriteLine($"{irany}-ba nincs kijárat");
+                    break;
             }
         }
     }
