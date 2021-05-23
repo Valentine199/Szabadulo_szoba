@@ -43,7 +43,7 @@ namespace Szabadulo_szoba
                     }
                     else if(targyak.Where(x => x.neve == ertelmezett[1]).First().nyithato)
                     {
-                        jatekos.Nyisd(ertelmezett[1]);
+                        jatekos.Nyisd(ertelmezett[1], ertelmezett[2]);
                     }
                     else
                     {
@@ -54,7 +54,36 @@ namespace Szabadulo_szoba
                 case "tedd":
                 case "Vedd":
                 case "vedd":
-                        jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                        if (targyak.Where(x => x.neve == ertelmezett[1]).First().lathato)
+                        {
+                            jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Nem látom a(z) {ertelmezett[1]}-t");
+                        }
+                        break;
+                case "Húzd":
+                case "húzd":
+                        if(targyak.Where(x => x.neve == ertelmezett[1]).First().huzhato)
+                        {
+                            jatekos.Huzas(ertelmezett[1]);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"A(z) {ertelmezett[1]} nem húzható.");
+                        }
+                        break;
+                case "törd":
+                case "Törd":
+                        if(targyak.Where(x => x.neve == ertelmezett[1]).First().torheto)
+                        {
+                            jatekos.Tores(ertelmezett[1], ertelmezett[2]);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"A(z) {ertelmezett[1]} nem törhető");
+                        }
                         break;
                 default:
                         Console.WriteLine("Ilyen parancsot nem ismerek.");

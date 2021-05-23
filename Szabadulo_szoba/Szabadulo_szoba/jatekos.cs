@@ -44,9 +44,9 @@ namespace Szabadulo_szoba
                 return Program.haz.Where(x => x.id == Helye).First().leiras;
             }
         }
-        public void Nyisd(string nev)
+        public void Nyisd(string mit, string mivel)
         {
-            switch (nev)
+            switch (mit)
             {
                 case "szekrény":
                     Console.WriteLine("Kinyitottad a szekrényt. Egy dobozt látsz.");
@@ -55,7 +55,7 @@ namespace Szabadulo_szoba
                 case "doboz":
                     if (Leltar.Count > 0)
                     {
-                        if (Leltar.Where(x => x.neve == nev).First().neve.Contains(nev))
+                        if (Leltar.Where(x => x.neve == mit).First().neve.Contains(mit))
                         {
                             Console.WriteLine("kinyitottad a dobozt. Egy kulcsot találsz benne");
                             Program.targyak.Where(x => x.neve == "kulcs").First().lathato = true;
@@ -70,8 +70,37 @@ namespace Szabadulo_szoba
                         Console.WriteLine("Könnyebb lenne ha felvenném és úgy nyitnám ki.");
                     }
                     break;
+                case "kulcs":
+                case "ajtó":
+                   string id = Program.targyak.Where(x => x.neve == mit).First().id;
+                    if(mivel == "")
+                    {
+                        switch (mit)
+                        {
+                            case "kulcs":
+                                Console.WriteLine("Mivel használjam a kulcsot?");
+                                break;
+                            case "ajtó":
+                                Console.WriteLine("Az ajtó kulcsra van zárva");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if(Program.targyak.Where(x=> x.neve==mivel).First().Kapcsolat.Contains(id))
+                    {
+                        Console.WriteLine("Kinyitottad az ajtót");
+                        Program.haz.Where(x => x.id == Helye).First().nyugat = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Ez a két tárgy {mit} és {mivel} nem nyitják egymást.");
+                    }
+
+
+                    break;
                 default:
-                    Console.WriteLine();
+                    Console.WriteLine($"Az {mit} nem nyitható");
                     break;
             }
         }
@@ -134,6 +163,64 @@ namespace Szabadulo_szoba
             }
 
 
+        }
+        public void Huzas(string nev)
+        {
+            if(Program.targyak.Where(x=> x.neve == nev).First().lathato)
+            {
+                switch (nev)
+                {
+                    case "szekrény":
+                        Console.WriteLine("Elhúztad a szekrényt. Mögötte egy ablakot látsz.");
+                        Program.targyak.Where(x => x.neve == "ablak").First().lathato = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nem látom a(z) {0}-t", nev);
+            }
+        }
+        public void Tores(string mit, string mivel)
+        {
+            if(Program.targyak.Where(x=> x.neve == mit).First().lathato && Program.targyak.Where(x => x.neve == mivel).First().lathato)
+            {
+                switch (mit)
+                {
+                    case "ablak":
+                    case "feszítővas":
+                        string id = Program.targyak.Where(x => x.neve == mit).First().id;
+                        if (mivel == "")
+                        {
+                            switch (mit)
+                            {
+                                case "feszítővas":
+                                    Console.WriteLine("Mit törjek össze?");
+                                    break;
+                                case "ablak":
+                                    Console.WriteLine("A kezeddel nem tudod összetörni, mert megvágnád magad.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else if (Program.targyak.Where(x => x.neve == mivel).First().Kapcsolat.Contains(id))
+                        {
+                            Console.WriteLine("A feszítővassal betöröd az ablakot");
+                            Program.haz.Where(x => x.id == Helye).First().eszak = true;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nem látom ezeket a tárgyakat.");
+            }
         }
     }
 }

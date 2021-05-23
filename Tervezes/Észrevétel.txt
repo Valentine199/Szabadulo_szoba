@@ -1,6 +1,6 @@
 A nyert dönti el kell-e új dialógus.
-"Nyisd ajtó" = örök loop
 Fel és letételnél az van csak feltételezve, hogy kisbetűvel van írva
-Vedd fel nem működik rendesen. Az értelmező elromlik és a fel/le értéket nem adja vissza. 
-Azok az elemek, amiknek kell valami a kinyitásukhoz nem érzékelik egymást, nem nyithatóak. 
 KOMMENTEK 
+Jobb elérés az inicializálásnál
+Nem látható tárgyak is felvehetőek.
+Szebb interface
