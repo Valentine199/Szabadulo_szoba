@@ -13,6 +13,7 @@ namespace Szabadulo_szoba
        public static bool nyert = false;
         static void Main()
         {
+            //A játék addig tart amíg a nyert nem lesz true. addig folyamatosan kér új parancsokat.
 
             Inicializalas();
 
@@ -42,20 +43,26 @@ namespace Szabadulo_szoba
                         {
                             Console.WriteLine("Mit nyissak ki?");
                         }
-                        else if (targyak.First(x => x.neve == ertelmezett[1]).nyithato)
+                        else if(Program.haz.First(x=> x.id==jatekos.Helye).Tartalma.Contains(targyak.First(x=>x.neve==ertelmezett[1])) ||jatekos.Leltar.Contains(targyak.First(x => x.neve == ertelmezett[1])))
                         {
-                            jatekos.Nyisd(ertelmezett[1], ertelmezett[2]);
+                             
+                                jatekos.Nyisd(ertelmezett[1], ertelmezett[2]);
                         }
                         else
                         {
-                            Console.WriteLine($"A {targyak.First(x => x.neve == ertelmezett[1]).neve} nem nyitható");
+                            Console.WriteLine($"A(z) {ertelmezett[1]} nincs itt.");
                         }
+                        
                         break;
                     case "Tedd":
                     case "tedd":
                     case "Vedd":
                     case "vedd":
-                        if (targyak.First(x => x.neve == ertelmezett[1]).lathato)
+                        if(jatekos.Leltar.Count==0 && ertelmezett[3]=="le")
+                        {
+                            Console.WriteLine("Nincs a leltáramban semmi.");
+                        }
+                       else if (targyak.First(x => x.neve == ertelmezett[1]).lathato)
                         {
                             jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
                         }
@@ -77,13 +84,20 @@ namespace Szabadulo_szoba
                         break;
                     case "törd":
                     case "Törd":
-                        if (targyak.First(x => x.neve == ertelmezett[1]).torheto)
+                        if ((Program.haz.First(x => x.id == jatekos.Helye).Tartalma.Contains(targyak.First(x => x.neve == ertelmezett[1])) || jatekos.Leltar.Contains(targyak.First(x => x.neve == ertelmezett[1]))))
                         {
-                            jatekos.Tores(ertelmezett[1], ertelmezett[2]);
+                            if (targyak.First(x => x.neve == ertelmezett[1]).torheto)
+                            {
+                                jatekos.Tores(ertelmezett[1], ertelmezett[2]);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"A(z) {ertelmezett[1]} nem törhető");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine($"A(z) {ertelmezett[1]} nem törhető");
+                            Console.WriteLine("Ezek a tárgyak nincsenek ebben a szobában.");
                         }
                         break;
                     case "Menj":
@@ -98,7 +112,23 @@ namespace Szabadulo_szoba
                         break;
                     case "betöltés":
                     case "Betöltés":
-                        Betoltes();
+                        if(File.Exists("mentes.sav"))
+                        {
+                            Console.WriteLine("Biztosan betöltöd egy korábbi mentésed? Jelenlegi állásod elveszhet. (y/n)");
+                            string valasz = Console.ReadLine();
+                            if(valasz=="y" ||valasz =="yes" ||valasz == "igen")
+                            {
+                                Betoltes();
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nem található mentés.");
+                        }
                         break;
                     default:
                         Console.WriteLine("Ilyen parancsot nem ismerek.");
@@ -109,15 +139,15 @@ namespace Szabadulo_szoba
             Console.ReadKey();
         }
         
+        /// <summary>
+        /// Kitörli az eddigi tárgyakat és helyükre a mentett elemeket helyezi.
+        /// </summary>
         private static void Betoltes()
         {
-            /// <summary>
-            /// Betölti a a játékot egy korábbi állásból.
-            /// <para>Csak akkor működik ha van mentett állás.</para>
-            /// </summary>
             targyak.Clear();
             haz.Clear();
             string jatekosLoad = "";
+            string szobaLoad = "";
             foreach (var elem in File.ReadAllLines("mentes.sav"))
             {
                 string[] sor = elem.Split('\t');
@@ -128,28 +158,42 @@ namespace Szabadulo_szoba
                 else if (sor.Length == 2)
                 {
                     targyak.Add(new targy(sor[0]));
-                    haz.Add(new szoba(sor[1]));
+                    szobaLoad += sor[1] + "-";
                 }
                 else if (sor.Length == 3)
                 {
                     targyak.Add(new targy(sor[0]));
 
-                    haz.Add(new szoba(sor[1]));
+                    szobaLoad += sor[1] + "-";
+                    //haz.Add(new szoba(sor[1]));
 
                     jatekosLoad = sor[2];
                 }
             }
 
+            string[] szobaTargyak = szobaLoad.Split("-");
 
+            foreach (var targyak in szobaTargyak)
+            {
+                if(targyak != "")
+                {
+                  haz.Add(new szoba(targyak));
+                }
+                
+            }
 
             jatekos.Helye = jatekosLoad.Split(";")[0];
             string[] jatekosTargyak = jatekosLoad.Split(";")[1].Split(" ");
-            for (int i = 0; i < jatekosTargyak.Length; i++)
+            for (int i = 0; i < jatekosTargyak.Length-1; i++)
             {
                 jatekos.Leltar.Add(targyak.First(x => x.neve == jatekosTargyak[i]));
             }
+            Console.WriteLine("Betöltés sikeres");
         }
-
+        /// <summary>
+        /// Az összes tárgy, szoba és játékos attributomot lementi. 
+        /// <para>Először összegyűjti az adatokat majd elválasztva sorokba egymás mellé helyezi az elemeket. Egy sor felépítése: tárgy adatai tab szoba adatai tab játékos adatai.</para>
+        /// </summary>
         private static void Mentés()
         {
             List<string> targyMentes = new List<string>();
@@ -162,7 +206,7 @@ namespace Szabadulo_szoba
                 string kapcsolat = "";
                 for (int i = 0; i < targy.Kapcsolat.Count; i++)
                 {
-                    kapcsolat += targy.Kapcsolat[i] + " ";
+                    kapcsolat += targy.Kapcsolat[i] + ";";
                 }
                 string sor = targy.id + ";" + targy.neve + ";" + targy.kezdoHelye + ";" + targy.leiras + ";" + targy.felveheto + ";" + targy.nyithato + ";" + targy.huzhato + ";" + targy.torheto + ";" + targy.lathato + ";" + kapcsolat;
                 targyMentes.Add(sor);
@@ -223,6 +267,17 @@ namespace Szabadulo_szoba
 
         }
 
+        /// <summary>
+        /// feldolgozza a felhasználó áálltal megadott sort és elrendezi úgy hogy értelmezhető legyen a programnak.
+        /// 5 eleme van melyek mindig ugyan úgy kvetik egymást
+        /// 1. maga parancs amit végre kell hajtani.
+        /// 2. mit mi az a tárgy amivel a parancsopt hajtsa végre.
+        /// 3. mivel ha valamihez (pl ajtó nyitás) két tárgy kell akkor itt adható meg a másik.
+        /// 4. hova eldönti hogy fel venni vagy letenni szeretnénk valamit.
+        /// 5. irany az az irányamerre menni szeretnénk.
+        /// </summary>
+        /// <param name="beadott"></param>
+        /// <returns></returns>
         private static string[] ertelmezes(string beadott)
         {
             string[] ertelmezett = beadott.Split(' ');
@@ -265,6 +320,8 @@ namespace Szabadulo_szoba
             string[] vegrehajtas = { parancs, mit, mivel, hova, irany};
             return vegrehajtas;
         }
+
+
 
         private static void Inicializalas()
         {

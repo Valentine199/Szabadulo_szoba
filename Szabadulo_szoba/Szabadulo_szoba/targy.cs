@@ -29,11 +29,11 @@ namespace Szabadulo_szoba
             this.kezdoHelye = data[2];
             this.leiras = data[3];
 
-            this.felveheto = (data[4] == "1");
-            this.nyithato = (data[5] == "1");
-            this.huzhato = (data[6] == "1");
-            this.torheto = (data[7] == "1");
-            this.lathato= (data[8] == "1");
+            this.felveheto = (data[4] == "1" || data[4] == "True");
+            this.nyithato = (data[5] == "1" || data[5] == "True");
+            this.huzhato = (data[6] == "1" || data[6] == "True");
+            this.torheto = (data[7] == "1" || data[7] == "True");
+            this.lathato= (data[8] == "1" || data[8] == "True");
             for (int i = 9; i < data.Length; i++)
             {
                 kapcsolat.Add(data[i]);
