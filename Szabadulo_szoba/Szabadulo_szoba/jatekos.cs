@@ -10,6 +10,16 @@ namespace Szabadulo_szoba
         string helye = "0";
         List<targy> leltar = new List<targy>();
 
+        public jatekos()
+        {
+
+        }
+        public jatekos(string helye, List<targy> leltar)
+        {
+            Helye = helye;
+            Leltar = leltar;
+        }
+
         public string Helye { get => helye; set => helye = value; }
         internal List<targy> Leltar { get => leltar; set => leltar = value; }
 
@@ -33,20 +43,20 @@ namespace Szabadulo_szoba
 
             if (nev != "")
             {
-                if (Program.targyak.Where(x => x.neve == nev).First().lathato == true)
+                if (Program.targyak.First(x => x.neve == nev).lathato == true)
                 {
                     if (nev == "kád")
                     {
                         Program.targyak.First(x => x.neve == "feszítővas").lathato = true;
                     }
-                    return Program.targyak.Where(x => x.neve == nev).First().leiras;
+                    return Program.targyak.First(x => x.neve == nev).leiras;
                 }
-                return $"Nem látok {Program.targyak.Where(x => x.neve == nev).First().neve}-(a)t";
+                return $"Nem látok {Program.targyak.First(x => x.neve == nev).neve}-(a)t";
             }
             else
             {
                 
-                return Program.haz.Where(x => x.id == Helye).First().leiras;
+                return Program.haz.First(x => x.id == Helye).leiras;
             }
         }
         public void Nyisd(string mit, string mivel)
@@ -55,15 +65,15 @@ namespace Szabadulo_szoba
             {
                 case "szekrény":
                     Console.WriteLine("Kinyitottad a szekrényt. Egy dobozt látsz.");
-                    Program.targyak.Where(x => x.neve == "doboz").First().lathato = true;
+                    Program.targyak.First(x => x.neve == "doboz").lathato = true;
                     break;
                 case "doboz":
                     if (Leltar.Count > 0)
                     {
-                        if (Leltar.Where(x => x.neve == mit).First().neve.Contains(mit))
+                        if (Leltar.First(x => x.neve == mit).neve.Contains(mit))
                         {
                             Console.WriteLine("kinyitottad a dobozt. Egy kulcsot találsz benne");
-                            Program.targyak.Where(x => x.neve == "kulcs").First().lathato = true;
+                            Program.targyak.First(x => x.neve == "kulcs").lathato = true;
                         }
                         else
                         {
@@ -77,7 +87,7 @@ namespace Szabadulo_szoba
                     break;
                 case "kulcs":
                 case "ajtó":
-                   string id = Program.targyak.Where(x => x.neve == mit).First().id;
+                   string id = Program.targyak.First(x => x.neve == mit).id;
                     if(mivel == "")
                     {
                         switch (mit)
@@ -92,7 +102,7 @@ namespace Szabadulo_szoba
                                 break;
                         }
                     }
-                    else if(Program.targyak.Where(x=> x.neve==mivel).First().Kapcsolat.Contains(id))
+                    else if(Program.targyak.First(x => x.neve == mivel).Kapcsolat.Contains(id))
                     {
                         Console.WriteLine("Kinyitottad az ajtót");
                         Program.haz.Where(x => x.id == Helye).First().nyugat = true;

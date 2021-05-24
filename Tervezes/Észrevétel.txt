@@ -9,4 +9,5 @@ Nem kell a leltárban lennie egy tárgynak ahhoz, hogy használjam
 
 másik szobából láthatóak dolgok.
 felseleges .where()-ek
+minden esetben betölt
 
