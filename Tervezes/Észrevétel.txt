@@ -1,3 +1,0 @@
-Az irányok csak nagy kezdőbetűvel elfogadottak.
-
-ablak nem törik be betöltés után

@@ -54,7 +54,7 @@ namespace Szabadulo_szoba
             {
                 if (Program.targyak.First(x => x.neve == nev).lathato == true)
                 {
-                    if (Program.haz.First(x => x.id == Helye).Tartalma.Select(x => x.neve).Contains(nev))
+                    if (Program.haz.First(x => x.id == Helye).Tartalma.Select(x => x.neve).Contains(nev) || Leltar.Select(x=> x.neve).Contains(nev))
                     {
                         if (nev == "kád")
                         {
@@ -300,7 +300,7 @@ namespace Szabadulo_szoba
         {
             switch (irany)
             {
-                case "Észak":
+                case "észak":
                     switch (Helye)
                     {
                         case "0":
@@ -326,7 +326,7 @@ namespace Szabadulo_szoba
                             break;
                     }
                     break;
-                case "Kelet":
+                case "kelet":
                     switch (Helye)
                     {
                         case "0":
@@ -340,7 +340,7 @@ namespace Szabadulo_szoba
                             break;
                     }
                     break;
-                case "Nyugat":
+                case "nyugat":
                     switch (Helye)
                     {
                         case "0":
@@ -355,8 +355,7 @@ namespace Szabadulo_szoba
                             }
                             break;
                         case "1":
-                            Helye = "0";
-                            Console.WriteLine(Program.haz.First(x => x.id == Helye).leiras);
+                            Console.WriteLine("Arra nincs kijárat");
                             break;
                         default:
                             break;

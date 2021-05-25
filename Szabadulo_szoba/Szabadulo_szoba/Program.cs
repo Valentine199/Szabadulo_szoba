@@ -28,16 +28,12 @@ namespace Szabadulo_szoba
                 switch (ertelmezett[0])
                 {
                     case "leltar":
-                    case "Leltár":
                     case "leltár":
                         jatekos.Leltaram();
                         break;
-
-                    case "Nézd":
                     case "nézd":
                         Console.WriteLine(jatekos.Nezd(ertelmezett[1]));
                         break;
-                    case "Nyisd":
                     case "nyisd":
                         if (ertelmezett[1] == "")
                         {
@@ -54,39 +50,51 @@ namespace Szabadulo_szoba
                         }
                         
                         break;
-                    case "Tedd":
                     case "tedd":
-                    case "Vedd":
                     case "vedd":
                         if(jatekos.Leltar.Count==0 && ertelmezett[3]=="le")
                         {
                             Console.WriteLine("Nincs a leltáramban semmi.");
                         }
-                       else if (targyak.First(x => x.neve == ertelmezett[1]).lathato)
+                       else if (targyak.Select(x => x.neve).Contains(ertelmezett[1]))
                         {
-                            jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                            if (targyak.First(x => x.neve == ertelmezett[1]).lathato)
+                            {
+                                jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Nem látom a(z) {ertelmezett[1]}-t");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine($"Nem látom a(z) {ertelmezett[1]}-t");
+                            Console.WriteLine($"Nincs ilyen tárgy.");
                         }
                         break;
-                    case "Húzd":
                     case "húzd":
-                        if (targyak.First(x => x.neve == ertelmezett[1]).huzhato)
-                        {
-                            jatekos.Huzas(ertelmezett[1]);
+                        if (Program.haz.First(x => x.id == jatekos.Helye).Tartalma.Contains(targyak.First(x => x.neve == ertelmezett[1])))
+                            {
+
+
+                            if (targyak.First(x => x.neve == ertelmezett[1]).huzhato)
+                            {
+                                jatekos.Huzas(ertelmezett[1]);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"A(z) {ertelmezett[1]} nem húzható.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine($"A(z) {ertelmezett[1]} nem húzható.");
+                            Console.WriteLine("Ez a tárgy nem ebben a szobában van.");
                         }
                         break;
                     case "törd":
-                    case "Törd":
                         if ((Program.haz.First(x => x.id == jatekos.Helye).Tartalma.Contains(targyak.First(x => x.neve == ertelmezett[1])) || jatekos.Leltar.Contains(targyak.First(x => x.neve == ertelmezett[1]))))
                         {
-                            if (targyak.First(x => x.neve == ertelmezett[1]).torheto)
+                            if (targyak.First(x => x.neve == ertelmezett[1]).torheto || targyak.First(x => x.neve == ertelmezett[2]).torheto)
                             {
                                 jatekos.Tores(ertelmezett[1], ertelmezett[2]);
                             }
@@ -100,22 +108,18 @@ namespace Szabadulo_szoba
                             Console.WriteLine("Ezek a tárgyak nincsenek ebben a szobában.");
                         }
                         break;
-                    case "Menj":
                     case "menj":
                         jatekos.Menni(ertelmezett[4]);
                         break;
-                    case "Mentés":
                     case "mentés":
-                    case "Ments":
                     case "ments":
                         Mentés();
                         break;
                     case "betöltés":
-                    case "Betöltés":
                         if(File.Exists("mentes.sav"))
                         {
                             Console.WriteLine("Biztosan betöltöd egy korábbi mentésed? Jelenlegi állásod elveszhet. (y/n)");
-                            string valasz = Console.ReadLine();
+                            string valasz = Console.ReadLine().ToLower();
                             if(valasz=="y" ||valasz =="yes" ||valasz == "igen")
                             {
                                 Betoltes();
@@ -146,6 +150,7 @@ namespace Szabadulo_szoba
         {
             targyak.Clear();
             haz.Clear();
+            jatekos.Leltar.Clear();
             string jatekosLoad = "";
             string szobaLoad = "";
             foreach (var elem in File.ReadAllLines("mentes.sav"))
@@ -292,28 +297,29 @@ namespace Szabadulo_szoba
 
             for (int i = 0; i < ertelmezett.Length; i++)
             {
-                if (targyak.Select(x => x.neve).Contains(ertelmezett[i]))
+                string eldontendo = ertelmezett[i].ToLower();
+                if (targyak.Select(x => x.neve).Contains(eldontendo))
                 {
                     if (mit.Length > 0)
                     {
-                        mivel = ertelmezett[i];
+                        mivel = eldontendo;
                     }
                     else
                     {
-                        mit = ertelmezett[i];
+                        mit = eldontendo;
                     }
                 }
-                else if(ertelmezett[i]=="fel"||ertelmezett[i]=="le")
+                else if(eldontendo=="fel"||eldontendo=="le")
                 {
-                    hova = ertelmezett[i];
+                    hova = eldontendo;
                 }
-                else if(ertelmezett[i] == "Észak" || ertelmezett[i] == "Dél" || ertelmezett[i] == "Kelet" || ertelmezett[i] == "Nyugat")
+                else if(eldontendo == "észak" || eldontendo == "dél" || eldontendo == "kelet" || eldontendo == "nyugat")
                 {
-                    irany = ertelmezett[i];
+                    irany = eldontendo;
                 }
                 else if(parancs =="")
                 {
-                    parancs = ertelmezett[i];
+                    parancs = eldontendo;
                 }
 
             }
