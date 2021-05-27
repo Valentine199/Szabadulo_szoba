@@ -151,48 +151,22 @@ namespace Szabadulo_szoba
             targyak.Clear();
             haz.Clear();
             jatekos.Leltar.Clear();
-            string jatekosLoad = "";
-            string szobaLoad = "";
-            foreach (var elem in File.ReadAllLines("mentes.sav"))
+
+            string[] betoltottAdat = File.ReadAllLines("mentes.sav");
+
+            foreach (string betoltottTargyak in betoltottAdat[0].Split('\t'))
             {
-                string[] sor = elem.Split('\t');
-                if (sor.Length == 1)
-                {
-                    targyak.Add(new targy(sor[0]));
-                }
-                else if (sor.Length == 2)
-                {
-                    targyak.Add(new targy(sor[0]));
-                    szobaLoad += sor[1] + "-";
-                }
-                else if (sor.Length == 3)
-                {
-                    targyak.Add(new targy(sor[0]));
-
-                    szobaLoad += sor[1] + "-";
-                    //haz.Add(new szoba(sor[1]));
-
-                    jatekosLoad = sor[2];
-                }
+                targyak.Add(new targy(betoltottTargyak));
+            }
+            foreach (string betoltottSzobak in betoltottAdat[1].Split('\t'))
+            {
+                haz.Add(new szoba(betoltottSzobak));
+            }
+            foreach (string betoltottJatekos in betoltottAdat[2].Split('\t'))
+            {
+                jatekos.jatekosBetoltes(betoltottJatekos);
             }
 
-            string[] szobaTargyak = szobaLoad.Split("-");
-
-            foreach (var targyak in szobaTargyak)
-            {
-                if(targyak != "")
-                {
-                  haz.Add(new szoba(targyak));
-                }
-                
-            }
-
-            jatekos.Helye = jatekosLoad.Split(";")[0];
-            string[] jatekosTargyak = jatekosLoad.Split(";")[1].Split(" ");
-            for (int i = 0; i < jatekosTargyak.Length-1; i++)
-            {
-                jatekos.Leltar.Add(targyak.First(x => x.neve == jatekosTargyak[i]));
-            }
             Console.WriteLine("Betöltés sikeres");
         }
         /// <summary>
@@ -207,83 +181,6 @@ namespace Szabadulo_szoba
             mentes.Add(string.Join('\t', jatekos));
             File.WriteAllLines("mentes.sav", mentes);
             Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
-            /*List<string> SzobaMentes = new List<string>();
-            string jatekosMentes = "";*/
-
-            //string test = ;
-
-
-            /* foreach (var item in targyMentes)
-             {
-                 Console.WriteLine(item);
-             }
-             foreach (targy targy in targyak)
-             {
-                 string kapcsolat = "";
-                 for (int i = 0; i < targy.Kapcsolat.Count; i++)
-                 {
-                     kapcsolat += targy.Kapcsolat[i] + ";";
-                 }
-                 string sor = targy.id + ";" + targy.neve + ";" + targy.kezdoHelye + ";" + targy.leiras + ";" + targy.felveheto + ";" + targy.nyithato + ";" + targy.huzhato + ";" + targy.torheto + ";" + targy.lathato + ";" + kapcsolat;
-                 targyMentes.Add(sor);
-
-             }*/
-
-
-
-            /* foreach (szoba szoba in haz)
-             {
-                 string tartalom = "";
-                 for (int i = 0; i < szoba.Tartalma.Count; i++)
-                 {
-                     tartalom += szoba.Tartalma[i].id + " ";
-                 }
-                 string sor = szoba.id + ";" + szoba.neve + ";" + szoba.leiras + ";" + szoba.eszak + ";" + szoba.kelet + ";" + szoba.del + ";" + szoba.nyugat + ";" + tartalom;
-                 SzobaMentes.Add(sor);
-             }*/
-
-
-            /* string leltar = "";
-             for (int i = 0; i < jatekos.Leltar.Count; i++)
-             {
-                 leltar += jatekos.Leltar[i].neve + " ";
-             }
-             jatekosMentes = jatekos.Helye + ";" + leltar;*/
-
-
-            /* List<string> kiiratas = new List<string>();
-
-             int max = 0;
-             if (targyMentes.Count>SzobaMentes.Count)
-             {
-                 max = targyMentes.Count;
-             }
-             else
-             {
-                 max = SzobaMentes.Count;
-             }
-
-
-             for (int i = 0; i < max; i++)
-             {
-                 string sor = "";
-                 if (i<1)
-                 {
-                     sor = targyMentes[i] + "\t" + SzobaMentes[i] + "\t" + jatekosMentes;
-                 }
-                 else if (SzobaMentes.Count>i)
-                 {
-                     sor = targyMentes[i] + "\t" + SzobaMentes[i];
-                 }
-                 else
-                 {
-                     sor = targyMentes[i];
-                 }
-                 kiiratas.Add(sor);
-             }*/
-
-
-
         }
 
         /// <summary>

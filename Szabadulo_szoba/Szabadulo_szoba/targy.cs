@@ -44,4 +44,6 @@ namespace Szabadulo_szoba
             return String.Format($"{id};{neve};{kezdoHelye};{leiras};{felveheto};{nyithato};{huzhato};{torheto};{lathato};{string.Join(";", Kapcsolat)}");
         }
     }
+
+
 }

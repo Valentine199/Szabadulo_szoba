@@ -6,7 +6,7 @@ using System.Text;
 namespace Szabadulo_szoba
 {
     class jatekos
-    {
+    { // át kell helyezni a "targyba"
         string helye = "0";
         List<targy> leltar = new List<targy>();
 
@@ -14,19 +14,30 @@ namespace Szabadulo_szoba
         {
 
         }
-        // nem jó a konstruktor
-        public jatekos(string helye, List<targy> leltar)
+        public void jatekosBetoltes(string adat)
         {
-            Helye = helye;
-            Leltar = leltar;
+            string[] data = adat.Split(';');
+            Helye = data[0];
+            if(data.Length>1)
+            {
+                for (int i = 1; i < data.Length; i++)
+                {
+                    Leltar.Add(Program.targyak.First(x => x.id == data[i]));
+                }
+            }
+           
         }
 
         public string Helye { get => helye; set => helye = value; }
         internal List<targy> Leltar { get => leltar; set => leltar = value; }
         public override string ToString()
         {
-            return string.Format($"{Helye};{string.Join(' ', Leltar.Select(x => x.id).ToArray())}");
+            return string.Format($"{Helye};{string.Join(';', Leltar.Select(x => x.id).ToArray())}");
         }
+
+
+
+        //Parancsok.cs
 
         /// <summary>
         /// Kiirja a leltár elemeit.

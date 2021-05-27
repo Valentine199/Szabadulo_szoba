@@ -1,5 +1,6 @@
-Zsúfolt kódok !!
+Zsúfolt kódok !! --> Parancsok -adatok megjelenítes .cs
 sok if !!
+Inicializálás tárgy feltöltés szoba function!!!
 
 try catchelni a betöltést !!!
 enum !

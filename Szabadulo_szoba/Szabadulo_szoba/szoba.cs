@@ -7,7 +7,7 @@ namespace Szabadulo_szoba
 {
     class szoba
     {
-
+        // át kell helyezni a "targyba"
         public string id { get;}
         public string neve { get;}
         public string  leiras { get;}
@@ -29,18 +29,25 @@ namespace Szabadulo_szoba
             this.del = (data[5] == "1" || data[5] == "True");
             this.nyugat = (data[6] == "1" || data[6] == "True");
 
-            if(data.Length>7)
+            //külön methode
+            if (data.Length>7)
             {
-                string[] tartalom = data[7].Split(" ");
-                for (int i = 0; i < tartalom.Length-1; i++)
-                {
-                    Tartalma.Add(Program.targyak.First(x => x.id == tartalom[i]));
-                }
+                TartalomFeltoltes(data);
+            }
+
+        }
+
+        private void TartalomFeltoltes(string[] data)
+        {
+            for (int i = 7; i < data.Length; i++)
+            {
+                tartalma.Add(Program.targyak.First(x => x.neve == data[i]));
             }
         }
+
         public override string ToString()
         {
-            return String.Format($"{id};{neve};{leiras};{eszak};{kelet};{del};{nyugat};{string.Join(' ', Tartalma.Select(x=> x.neve).ToArray())}");
+            return String.Format($"{id};{neve};{leiras};{eszak};{kelet};{del};{nyugat};{string.Join(';', Tartalma.Select(x=> x.neve).ToArray())}");
         }
     }
 }
