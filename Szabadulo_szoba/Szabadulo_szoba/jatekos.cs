@@ -14,6 +14,7 @@ namespace Szabadulo_szoba
         {
 
         }
+        // nem jó a konstruktor
         public jatekos(string helye, List<targy> leltar)
         {
             Helye = helye;
@@ -22,6 +23,10 @@ namespace Szabadulo_szoba
 
         public string Helye { get => helye; set => helye = value; }
         internal List<targy> Leltar { get => leltar; set => leltar = value; }
+        public override string ToString()
+        {
+            return string.Format($"{Helye};{string.Join(' ', Leltar.Select(x => x.id).ToArray())}");
+        }
 
         /// <summary>
         /// Kiirja a leltár elemeit.

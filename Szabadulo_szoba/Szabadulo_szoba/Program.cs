@@ -201,74 +201,88 @@ namespace Szabadulo_szoba
         /// </summary>
         private static void Mentés()
         {
-            List<string> targyMentes = new List<string>();
-            List<string> SzobaMentes = new List<string>();
-            string jatekosMentes = "";
-           
-
-            foreach (targy targy in targyak)
-            {
-                string kapcsolat = "";
-                for (int i = 0; i < targy.Kapcsolat.Count; i++)
-                {
-                    kapcsolat += targy.Kapcsolat[i] + ";";
-                }
-                string sor = targy.id + ";" + targy.neve + ";" + targy.kezdoHelye + ";" + targy.leiras + ";" + targy.felveheto + ";" + targy.nyithato + ";" + targy.huzhato + ";" + targy.torheto + ";" + targy.lathato + ";" + kapcsolat;
-                targyMentes.Add(sor);
-            }
-
-            foreach (szoba szoba in haz)
-            {
-                string tartalom = "";
-                for (int i = 0; i < szoba.Tartalma.Count; i++)
-                {
-                    tartalom += szoba.Tartalma[i].id + " ";
-                }
-                string sor = szoba.id + ";" + szoba.neve + ";" + szoba.leiras + ";" + szoba.eszak + ";" + szoba.kelet + ";" + szoba.del + ";" + szoba.nyugat + ";" + tartalom;
-                SzobaMentes.Add(sor);
-            }
-
-            string leltar = "";
-            for (int i = 0; i < jatekos.Leltar.Count; i++)
-            {
-                leltar += jatekos.Leltar[i].neve + " ";
-            }
-            jatekosMentes = jatekos.Helye + ";" + leltar;
-
-
-            List<string> kiiratas = new List<string>();
-
-            int max = 0;
-            if (targyMentes.Count>SzobaMentes.Count)
-            {
-                max = targyMentes.Count;
-            }
-            else
-            {
-                max = SzobaMentes.Count;
-            }
-            
-
-            for (int i = 0; i < max; i++)
-            {
-                string sor = "";
-                if (i<1)
-                {
-                    sor = targyMentes[i] + "\t" + SzobaMentes[i] + "\t" + jatekosMentes;
-                }
-                else if (SzobaMentes.Count>i)
-                {
-                    sor = targyMentes[i] + "\t" + SzobaMentes[i];
-                }
-                else
-                {
-                    sor = targyMentes[i];
-                }
-                kiiratas.Add(sor);
-            }
-
-            File.WriteAllLines("mentes.sav", kiiratas);
+            List<string> mentes = new List<string>();
+            mentes.Add(string.Join('\t', targyak));
+            mentes.Add(string.Join('\t', haz));
+            mentes.Add(string.Join('\t', jatekos));
+            File.WriteAllLines("mentes.sav", mentes);
             Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
+            /*List<string> SzobaMentes = new List<string>();
+            string jatekosMentes = "";*/
+
+            //string test = ;
+
+
+            /* foreach (var item in targyMentes)
+             {
+                 Console.WriteLine(item);
+             }
+             foreach (targy targy in targyak)
+             {
+                 string kapcsolat = "";
+                 for (int i = 0; i < targy.Kapcsolat.Count; i++)
+                 {
+                     kapcsolat += targy.Kapcsolat[i] + ";";
+                 }
+                 string sor = targy.id + ";" + targy.neve + ";" + targy.kezdoHelye + ";" + targy.leiras + ";" + targy.felveheto + ";" + targy.nyithato + ";" + targy.huzhato + ";" + targy.torheto + ";" + targy.lathato + ";" + kapcsolat;
+                 targyMentes.Add(sor);
+
+             }*/
+
+
+
+            /* foreach (szoba szoba in haz)
+             {
+                 string tartalom = "";
+                 for (int i = 0; i < szoba.Tartalma.Count; i++)
+                 {
+                     tartalom += szoba.Tartalma[i].id + " ";
+                 }
+                 string sor = szoba.id + ";" + szoba.neve + ";" + szoba.leiras + ";" + szoba.eszak + ";" + szoba.kelet + ";" + szoba.del + ";" + szoba.nyugat + ";" + tartalom;
+                 SzobaMentes.Add(sor);
+             }*/
+
+
+            /* string leltar = "";
+             for (int i = 0; i < jatekos.Leltar.Count; i++)
+             {
+                 leltar += jatekos.Leltar[i].neve + " ";
+             }
+             jatekosMentes = jatekos.Helye + ";" + leltar;*/
+
+
+            /* List<string> kiiratas = new List<string>();
+
+             int max = 0;
+             if (targyMentes.Count>SzobaMentes.Count)
+             {
+                 max = targyMentes.Count;
+             }
+             else
+             {
+                 max = SzobaMentes.Count;
+             }
+
+
+             for (int i = 0; i < max; i++)
+             {
+                 string sor = "";
+                 if (i<1)
+                 {
+                     sor = targyMentes[i] + "\t" + SzobaMentes[i] + "\t" + jatekosMentes;
+                 }
+                 else if (SzobaMentes.Count>i)
+                 {
+                     sor = targyMentes[i] + "\t" + SzobaMentes[i];
+                 }
+                 else
+                 {
+                     sor = targyMentes[i];
+                 }
+                 kiiratas.Add(sor);
+             }*/
+
+
 
         }
 
@@ -286,8 +300,6 @@ namespace Szabadulo_szoba
         private static string[] ertelmezes(string beadott)
         {
             string[] ertelmezett = beadott.Split(' ');
-
-
 
             string parancs = "";
             string mit = "";
@@ -326,9 +338,6 @@ namespace Szabadulo_szoba
             string[] vegrehajtas = { parancs, mit, mivel, hova, irany};
             return vegrehajtas;
         }
-
-
-
         private static void Inicializalas()
         {
             foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))

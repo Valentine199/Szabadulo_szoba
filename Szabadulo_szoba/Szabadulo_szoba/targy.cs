@@ -39,5 +39,9 @@ namespace Szabadulo_szoba
                 kapcsolat.Add(data[i]);
             }
         }
+        public override string ToString()
+        {
+            return String.Format($"{id};{neve};{kezdoHelye};{leiras};{felveheto};{nyithato};{huzhato};{torheto};{lathato};{string.Join(";", Kapcsolat)}");
+        }
     }
 }

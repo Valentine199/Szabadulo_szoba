@@ -38,5 +38,9 @@ namespace Szabadulo_szoba
                 }
             }
         }
+        public override string ToString()
+        {
+            return String.Format($"{id};{neve};{leiras};{eszak};{kelet};{del};{nyugat};{string.Join(' ', Tartalma.Select(x=> x.neve).ToArray())}");
+        }
     }
 }
