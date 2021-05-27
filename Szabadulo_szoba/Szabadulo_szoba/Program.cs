@@ -7,9 +7,6 @@ namespace Szabadulo_szoba
 {
     class Program
     {
-       public static jatekos jatekos = new jatekos();
-       public static List<targy> targyak = new List<targy>();
-       public static List<szoba> haz = new List<szoba>();
        public static bool nyert = false;
         static void Main()
         {
@@ -143,45 +140,8 @@ namespace Szabadulo_szoba
             Console.ReadKey();
         }
         
-        /// <summary>
-        /// Kitörli az eddigi tárgyakat és helyükre a mentett elemeket helyezi.
-        /// </summary>
-        private static void Betoltes()
-        {
-            targyak.Clear();
-            haz.Clear();
-            jatekos.Leltar.Clear();
-
-            string[] betoltottAdat = File.ReadAllLines("mentes.sav");
-
-            foreach (string betoltottTargyak in betoltottAdat[0].Split('\t'))
-            {
-                targyak.Add(new targy(betoltottTargyak));
-            }
-            foreach (string betoltottSzobak in betoltottAdat[1].Split('\t'))
-            {
-                haz.Add(new szoba(betoltottSzobak));
-            }
-            foreach (string betoltottJatekos in betoltottAdat[2].Split('\t'))
-            {
-                jatekos.jatekosBetoltes(betoltottJatekos);
-            }
-
-            Console.WriteLine("Betöltés sikeres");
-        }
-        /// <summary>
-        /// Az összes tárgy, szoba és játékos attributomot lementi. 
-        /// <para>Először összegyűjti az adatokat majd elválasztva sorokba egymás mellé helyezi az elemeket. Egy sor felépítése: tárgy adatai tab szoba adatai tab játékos adatai.</para>
-        /// </summary>
-        private static void Mentés()
-        {
-            List<string> mentes = new List<string>();
-            mentes.Add(string.Join('\t', targyak));
-            mentes.Add(string.Join('\t', haz));
-            mentes.Add(string.Join('\t', jatekos));
-            File.WriteAllLines("mentes.sav", mentes);
-            Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
-        }
+       
+       
 
         /// <summary>
         /// feldolgozza a felhasználó áálltal megadott sort és elrendezi úgy hogy értelmezhető legyen a programnak.
@@ -207,7 +167,7 @@ namespace Szabadulo_szoba
             for (int i = 0; i < ertelmezett.Length; i++)
             {
                 string eldontendo = ertelmezett[i].ToLower();
-                if (targyak.Select(x => x.neve).Contains(eldontendo))
+                if (Parancsok.targyak.Select(x => x.neve).Contains(eldontendo))
                 {
                     if (mit.Length > 0)
                     {
@@ -234,26 +194,6 @@ namespace Szabadulo_szoba
             }
             string[] vegrehajtas = { parancs, mit, mivel, hova, irany};
             return vegrehajtas;
-        }
-        private static void Inicializalas()
-        {
-            foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))
-            {
-                targyak.Add(new targy(targyAdat));
-            }
-            foreach (string szobaAdat in File.ReadLines("szobaInit.txt").Skip(1))
-            {
-                haz.Add(new szoba(szobaAdat));
-            }
-
-            foreach (szoba szobak in haz)
-            {
-                var temp = targyak.Select(x => x).Where(x => x.kezdoHelye == szobak.id);
-                foreach (targy targy in temp)
-                {
-                    szobak.Tartalma.Add(targy);
-                }
-            }
         }
     }
 }

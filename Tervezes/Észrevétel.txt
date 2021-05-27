@@ -1,7 +1,10 @@
 Zsúfolt kódok !! --> Parancsok -adatok megjelenítes .cs
+
+
 sok if !!
-Inicializálás tárgy feltöltés szoba function!!!
+ifek helyett saját exceptionok
+
 
 try catchelni a betöltést !!!
 enum !
-ékezetek elvétele bevitelnél !
+ékezetek elvétele bevitelnél ! .normalize
