@@ -24,20 +24,30 @@ namespace Szabadulo_szoba
 
         public targy(string sor)
         {
-            string[] data = sor.Split(';');
-            this.id = data[0];
-            this.neve = data[1];
-            this.kezdoHelye = data[2];
-            this.leiras = data[3];
-
-            this.felveheto = (data[4] == "1" || data[4] == "True");
-            this.nyithato = (data[5] == "1" || data[5] == "True");
-            this.huzhato = (data[6] == "1" || data[6] == "True");
-            this.torheto = (data[7] == "1" || data[7] == "True");
-            this.lathato= (data[8] == "1" || data[8] == "True");
-            for (int i = 9; i < data.Length; i++)
+            try
             {
-                kapcsolat.Add(data[i]);
+                string[] data = sor.Split(';');
+                this.id = data[0];
+                this.neve = data[1];
+                this.kezdoHelye = data[2];
+                this.leiras = data[3];
+
+                this.felveheto = (data[4] == "1" || data[4] == "True");
+                this.nyithato = (data[5] == "1" || data[5] == "True");
+                this.huzhato = (data[6] == "1" || data[6] == "True");
+                this.torheto = (data[7] == "1" || data[7] == "True");
+                this.lathato = (data[8] == "1" || data[8] == "True");
+                for (int i = 9; i < data.Length; i++)
+                {
+                    kapcsolat.Add(data[i]);
+                }
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
+                Parancsok.zavartalanBetoltes = false;
+                Program.parancsok.Inicializalas();
             }
         }
         public override string ToString()
@@ -48,7 +58,6 @@ namespace Szabadulo_szoba
 
     class szoba
     {
-        // át kell helyezni a "targyba"
         public string id { get; }
         public string neve { get; }
         public string leiras { get; }
@@ -61,19 +70,29 @@ namespace Szabadulo_szoba
 
         public szoba(string adat)
         {
-            string[] data = adat.Split(';');
-            this.id = data[0];
-            this.neve = data[1];
-            this.leiras = data[2];
-            this.eszak = (data[3] == "1" || data[3] == "True");
-            this.kelet = (data[4] == "1" || data[4] == "True");
-            this.del = (data[5] == "1" || data[5] == "True");
-            this.nyugat = (data[6] == "1" || data[6] == "True");
-
-            //külön methode
-            if (data.Length > 7)
+            try
             {
-                TartalomFeltoltes(data);
+                string[] data = adat.Split(';');
+                this.id = data[0];
+                this.neve = data[1];
+                this.leiras = data[2];
+                this.eszak = (data[3] == "1" || data[3] == "True");
+                this.kelet = (data[4] == "1" || data[4] == "True");
+                this.del = (data[5] == "1" || data[5] == "True");
+                this.nyugat = (data[6] == "1" || data[6] == "True");
+
+                //külön methode
+                if (data.Length > 7)
+                {
+                    TartalomFeltoltes(data);
+                }
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Hiba a szobák betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
+                Parancsok.zavartalanBetoltes = false;
+                Program.parancsok.Inicializalas();
             }
 
         }
@@ -103,14 +122,25 @@ namespace Szabadulo_szoba
         }
         public void jatekosBetoltes(string adat)
         {
-            string[] data = adat.Split(';');
-            Helye = data[0];
-            if (data.Length > 1)
+            try
             {
-                for (int i = 1; i < data.Length; i++)
+                string[] data = adat.Split(';');
+                Helye = data[0];
+                if (data.Length > 1)
                 {
-                    Leltar.Add(Parancsok.targyak.First(x => x.id == data[i]));
+                    for (int i = 1; i < data.Length; i++)
+                    {
+                        Leltar.Add(Parancsok.targyak.First(x => x.id == data[i]));
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
+                jatekosBetoltes("0");
+                Parancsok.zavartalanBetoltes = false;
+                Program.parancsok.Inicializalas();
             }
 
         }

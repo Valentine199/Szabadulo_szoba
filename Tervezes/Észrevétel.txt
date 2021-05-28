@@ -1,10 +1,16 @@
-Zsúfolt kódok !! --> Parancsok -adatok megjelenítes .cs
+
 
 
 sok if !!
-ifek helyett saját exceptionok
+ifeket kiszervezni metódusokba
 
 
-try catchelni a betöltést !!!
+
 enum !
-ékezetek elvétele bevitelnél ! .normalize
+ékezetek elvétele bevitelnél ! .normalize ??
+
+
+
+Ellenőrzések
+Tartalmaz-e üres elemet 
+Benne van-e a 

@@ -12,6 +12,7 @@ namespace Szabadulo_szoba
         public static jatekos jatekos = new jatekos();
         public static List<targy> targyak = new List<targy>();
         public static List<szoba> haz = new List<szoba>();
+        public static bool zavartalanBetoltes=true;
 
         /// <summary>
         /// Kiirja a leltár elemeit.
@@ -368,20 +369,41 @@ namespace Szabadulo_szoba
 
             string[] betoltottAdat = File.ReadAllLines("mentes.sav");
 
-            foreach (string betoltottTargyak in betoltottAdat[0].Split('\t'))
+            try
             {
-                targyak.Add(new targy(betoltottTargyak));
+                foreach (string betoltottTargyak in betoltottAdat[0].Split('\t'))
+                {
+                    targyak.Add(new targy(betoltottTargyak));
+                    if(!zavartalanBetoltes)
+                    {
+                        return;
+                    }
+                }
+                foreach (string betoltottSzobak in betoltottAdat[1].Split('\t'))
+                {
+                    haz.Add(new szoba(betoltottSzobak));
+                    if (!zavartalanBetoltes)
+                    {
+                        return;
+                    }
+                }
+                foreach (string betoltottJatekos in betoltottAdat[2].Split('\t'))
+                {
+                    jatekos.jatekosBetoltes(betoltottJatekos);
+                    if (!zavartalanBetoltes)
+                    {
+                        return;
+                    }
+                }
+                Console.WriteLine("Betöltés sikeres");
             }
-            foreach (string betoltottSzobak in betoltottAdat[1].Split('\t'))
+            catch (Exception)
             {
-                haz.Add(new szoba(betoltottSzobak));
-            }
-            foreach (string betoltottJatekos in betoltottAdat[2].Split('\t'))
-            {
-                jatekos.jatekosBetoltes(betoltottJatekos);
-            }
 
-            Console.WriteLine("Betöltés sikeres");
+                Console.WriteLine("Betöltés sikertelen. Hiányzó sorok. Kezdeti állapot betöltése");
+                Inicializalas();
+            }
+            
         }
         /// <summary>
         /// Az összes tárgy, szoba és játékos attributomot lementi. 
@@ -394,10 +416,15 @@ namespace Szabadulo_szoba
             mentes.Add(string.Join('\t', haz));
             mentes.Add(string.Join('\t', jatekos));
             File.WriteAllLines("mentes.sav", mentes);
+            zavartalanBetoltes = true;
             Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
         }
-        private static void Inicializalas()
+        public void Inicializalas()
         {
+            targyak.Clear();
+            haz.Clear();
+            jatekos.Leltar.Clear();
+
             foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))
             {
                 targyak.Add(new targy(targyAdat));

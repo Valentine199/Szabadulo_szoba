@@ -7,39 +7,37 @@ namespace Szabadulo_szoba
 {
     class Program
     {
+       public static Parancsok parancsok = new Parancsok();
        public static bool nyert = false;
         static void Main()
         {
             //A játék addig tart amíg a nyert nem lesz true. addig folyamatosan kér új parancsokat.
 
-            Inicializalas();
+            parancsok.Inicializalas();
 
             Console.WriteLine("Adjon meg egy parancsot");
             do
             {
-
-
                 string beadott = Console.ReadLine();
                 string[] ertelmezett = ertelmezes(beadott);
 
                 switch (ertelmezett[0])
                 {
-                    case "leltar":
                     case "leltár":
-                        jatekos.Leltaram();
+                        parancsok.Leltaram();
                         break;
                     case "nézd":
-                        Console.WriteLine(jatekos.Nezd(ertelmezett[1]));
+                        Console.WriteLine(parancsok.Nezd(ertelmezett[1]));
                         break;
                     case "nyisd":
                         if (ertelmezett[1] == "")
                         {
                             Console.WriteLine("Mit nyissak ki?");
                         }
-                        else if(Program.haz.First(x=> x.id==jatekos.Helye).Tartalma.Contains(targyak.First(x=>x.neve==ertelmezett[1])) ||jatekos.Leltar.Contains(targyak.First(x => x.neve == ertelmezett[1])))
+                        else if(Parancsok.haz.First(x=> x.id==Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x=>x.neve==ertelmezett[1])) ||Parancsok.jatekos.Leltar.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])))
                         {
-                             
-                                jatekos.Nyisd(ertelmezett[1], ertelmezett[2]);
+                                
+                                parancsok.Nyisd(ertelmezett[1], ertelmezett[2]);
                         }
                         else
                         {
@@ -49,15 +47,15 @@ namespace Szabadulo_szoba
                         break;
                     case "tedd":
                     case "vedd":
-                        if(jatekos.Leltar.Count==0 && ertelmezett[3]=="le")
+                        if(Parancsok.jatekos.Leltar.Count==0 && ertelmezett[3]=="le")
                         {
                             Console.WriteLine("Nincs a leltáramban semmi.");
                         }
-                       else if (targyak.Select(x => x.neve).Contains(ertelmezett[1]))
+                       else if (Parancsok.targyak.Select(x => x.neve).Contains(ertelmezett[1]))
                         {
-                            if (targyak.First(x => x.neve == ertelmezett[1]).lathato)
+                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).lathato)
                             {
-                                jatekos.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
+                                parancsok.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
                             }
                             else
                             {
@@ -70,13 +68,13 @@ namespace Szabadulo_szoba
                         }
                         break;
                     case "húzd":
-                        if (Program.haz.First(x => x.id == jatekos.Helye).Tartalma.Contains(targyak.First(x => x.neve == ertelmezett[1])))
+                        if (Parancsok.haz.First(x => x.id == Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])))
                             {
 
 
-                            if (targyak.First(x => x.neve == ertelmezett[1]).huzhato)
+                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).huzhato)
                             {
-                                jatekos.Huzas(ertelmezett[1]);
+                                parancsok.Huzas(ertelmezett[1]);
                             }
                             else
                             {
@@ -89,11 +87,11 @@ namespace Szabadulo_szoba
                         }
                         break;
                     case "törd":
-                        if ((Program.haz.First(x => x.id == jatekos.Helye).Tartalma.Contains(targyak.First(x => x.neve == ertelmezett[1])) || jatekos.Leltar.Contains(targyak.First(x => x.neve == ertelmezett[1]))))
+                        if ((Parancsok.haz.First(x => x.id == Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])) || Parancsok.jatekos.Leltar.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1]))))
                         {
-                            if (targyak.First(x => x.neve == ertelmezett[1]).torheto || targyak.First(x => x.neve == ertelmezett[2]).torheto)
+                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).torheto || Parancsok.targyak.First(x => x.neve == ertelmezett[2]).torheto)
                             {
-                                jatekos.Tores(ertelmezett[1], ertelmezett[2]);
+                                parancsok.Tores(ertelmezett[1], ertelmezett[2]);
                             }
                             else
                             {
@@ -106,11 +104,11 @@ namespace Szabadulo_szoba
                         }
                         break;
                     case "menj":
-                        jatekos.Menni(ertelmezett[4]);
+                        parancsok.Menni(ertelmezett[4]);
                         break;
                     case "mentés":
                     case "ments":
-                        Mentés();
+                        parancsok.Mentés();
                         break;
                     case "betöltés":
                         if(File.Exists("mentes.sav"))
@@ -119,7 +117,7 @@ namespace Szabadulo_szoba
                             string valasz = Console.ReadLine().ToLower();
                             if(valasz=="y" ||valasz =="yes" ||valasz == "igen")
                             {
-                                Betoltes();
+                                parancsok.Betoltes();
                             }
                             else
                             {
