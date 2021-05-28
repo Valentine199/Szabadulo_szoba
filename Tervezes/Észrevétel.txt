@@ -2,15 +2,9 @@
 
 
 sok if !!
-ifeket kiszervezni metódusokba
 
 
 
 enum !
 ékezetek elvétele bevitelnél ! .normalize ??
-
-
-
-Ellenőrzések
-Tartalmaz-e üres elemet 
-Benne van-e a 
+XML-ben tárolni elemeket.????

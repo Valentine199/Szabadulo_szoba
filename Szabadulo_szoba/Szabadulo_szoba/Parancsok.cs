@@ -43,9 +43,9 @@ namespace Szabadulo_szoba
         {
             if (nev != "")
             {
-                if (targyak.First(x => x.neve == nev).lathato == true)
+                if (Ellenorzo.Lathato(nev))
                 {
-                    if (haz.First(x => x.id == jatekos.Helye).Tartalma.Select(x => x.neve).Contains(nev) || jatekos.Leltar.Select(x=> x.neve).Contains(nev))
+                    if (Ellenorzo.Elerheto(nev))
                     {
                         if (nev == "kád")
                         {
@@ -62,6 +62,9 @@ namespace Szabadulo_szoba
                 return haz.First(x => x.id == jatekos.Helye).leiras;
             }
         }
+
+        
+
         /// <summary>
         /// Kinyitja a paraméterben megadott tárgyat. 
         /// Ha két tárgy kell valaminek a kinyitásához akkor ellenőrzi mind a kettő meglétét
@@ -70,75 +73,74 @@ namespace Szabadulo_szoba
         /// <param name="mivel"></param>
         public void Nyisd(string mit, string mivel)
         {
-            
-                switch (mit)
-                {
-                    case "szekrény":
-                        Console.WriteLine("Kinyitottad a szekrényt. Egy dobozt látsz.");
-                        targyak.First(x => x.neve == "doboz").lathato = true;
-                        break;
-                    case "doboz":
-                        if (jatekos.Leltar.Count > 0)
+
+            switch (mit)
+            {
+                case "szekrény":
+                    Console.WriteLine("Kinyitottad a szekrényt. Egy dobozt látsz.");
+                    targyak.First(x => x.neve == "doboz").lathato = true;
+                    break;
+                case "doboz":
+                    if (jatekos.Leltar.Count > 0)
+                    {
+                        if (Ellenorzo.LeltarambanVan(mit))
                         {
-                            if (jatekos.Leltar.First(x => x.neve == mit).neve.Contains(mit))
-                            {
-                                Console.WriteLine("kinyitottad a dobozt. Egy kulcsot találsz benne");
-                                targyak.First(x => x.neve == "kulcs").lathato = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Könnyebb lenne ha felvenném és úgy nyitnám ki.");
-                            }
+                            Console.WriteLine("kinyitottad a dobozt. Egy kulcsot találsz benne");
+                            targyak.First(x => x.neve == "kulcs").lathato = true;
                         }
                         else
                         {
                             Console.WriteLine("Könnyebb lenne ha felvenném és úgy nyitnám ki.");
                         }
-                        break;
-                    case "kulcs":
-                    case "ajtó":
-                    string id = targyak.First(x => x.neve == mit).id;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Könnyebb lenne ha felvenném és úgy nyitnám ki.");
+                    }
+                    break;
+                case "kulcs":
+                case "ajtó":
                     if (mivel == "")
+                    {
+                        switch (mit)
                         {
-                            switch (mit)
-                            {
-                                case "kulcs":
-                                    Console.WriteLine("Mivel használjam a kulcsot?");
-                                    break;
-                                case "ajtó":
-                                    Console.WriteLine("Az ajtó kulcsra van zárva");
-                                    break;
-                                default:
-                                    break;
-                            }
+                            case "kulcs":
+                                Console.WriteLine("Mivel használjam a kulcsot?");
+                                break;
+                            case "ajtó":
+                                Console.WriteLine("Az ajtó kulcsra van zárva");
+                                break;
+                            default:
+                                break;
                         }
-                        else if (targyak.First(x => x.neve == mivel).Kapcsolat.Contains(id))
+                    }
+                    else if (Ellenorzo.KapcsolatbanVannak(mit, mivel))
+                    {
+                        if (Ellenorzo.LeltarambanVan(mivel) || Ellenorzo.LeltarambanVan(mit))
                         {
-                            if (jatekos.Leltar.Contains(targyak.First(x => x.neve == mivel)) || jatekos.Leltar.Contains(targyak.First(x => x.neve == mit)))
-                            {
-                                Console.WriteLine("Kinyitottad az ajtót");
-                                haz.First(x => x.id == jatekos.Helye).nyugat = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Ehhez egy olyan tárgy kell ami nincs a leltáramban.");
-                            }
+                            Console.WriteLine("Kinyitottad az ajtót");
+                            haz.First(x => x.id == jatekos.Helye).nyugat = true;
                         }
                         else
                         {
-                            Console.WriteLine($"Ez a két tárgy {mit} és {mivel} nem nyitják egymást.");
+                            Console.WriteLine("Ehhez egy olyan tárgy kell ami nincs a leltáramban.");
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Ez a két tárgy {mit} és {mivel} nem nyitják egymást.");
+                    }
 
 
-                        break;
+                    break;
                 case "ablak":
                     Console.WriteLine("Az ablak zárva van");
                     break;
-                    default:
-                        Console.WriteLine($"Az {mit} nem nyitható");
-                        break;
-                }
-            
+                default:
+                    Console.WriteLine($"Az {mit} nem nyitható");
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -186,24 +188,13 @@ namespace Szabadulo_szoba
                             Console.WriteLine("Ez nincs a leltáramban");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine($"Nincs semmi a Leltáramban");
-                    }
                 }
 
 
             }
             else
             {
-                if (targyak.Select(x => x.neve).Contains(nev))
-                {
-                    Console.WriteLine($"A(z) {nev} nem mozgatható");
-                }
-                else
-                {
-                    Console.WriteLine($"A(z) {nev} nem található");
-                }
+               Console.WriteLine($"A(z) {nev} nem mozgatható");
             }
 
 
@@ -214,7 +205,7 @@ namespace Szabadulo_szoba
         /// <param name="nev"></param>
         public void Huzas(string nev)
         {
-            if(targyak.First(x => x.neve == nev).lathato)
+            if(targyak.First(x => x.neve == nev).huzhato)
             {
                 switch (nev)
                 {
@@ -228,7 +219,7 @@ namespace Szabadulo_szoba
             }
             else
             {
-                Console.WriteLine("Nem látom a(z) {0}-t", nev);
+                Console.WriteLine("A(z) {0} nem mozgatható", nev);
             }
         }
         /// <summary>
@@ -238,13 +229,12 @@ namespace Szabadulo_szoba
         /// <param name="mivel"></param>
         public void Tores(string mit, string mivel)
         {
-            if(targyak.First(x => x.neve == mit).lathato || targyak.First(x => x.neve == mivel).lathato)
+            if(targyak.First(x => x.neve == mit).torheto || Parancsok.targyak.First(x => x.neve == mivel).torheto)
             {
                 switch (mit)
                 {
                     case "ablak":
                     case "feszítővas":
-                        string id = targyak.First(x => x.neve == mit).id;
                         if (mivel == "")
                         {
                             switch (mit)
@@ -259,9 +249,9 @@ namespace Szabadulo_szoba
                                     break;
                             }
                         }
-                        else if (targyak.Find(x => x.neve == mivel).Kapcsolat.Contains(id))
+                        else if (Ellenorzo.KapcsolatbanVannak(mit,mivel))
                         {
-                            if(jatekos.Leltar.Contains(targyak.First(x => x.neve == mivel)) || jatekos.Leltar.Contains(targyak.First(x => x.neve == mit)))
+                            if(Ellenorzo.LeltarambanVan(mivel)|| Ellenorzo.LeltarambanVan(mit))
                             {
                                 Console.WriteLine("A feszítővassal betöröd az ablakot");
                                 haz.First(x => x.id == jatekos.Helye).eszak = true;
@@ -280,7 +270,7 @@ namespace Szabadulo_szoba
             }
             else
             {
-                Console.WriteLine("Nem látom ezeket a tárgyakat.");
+                Console.WriteLine("Ezek a tárgyak nem tudják egymást összetörni.");
             }
         }
         /// <summary>
@@ -301,7 +291,7 @@ namespace Szabadulo_szoba
                                 Console.WriteLine("Gratulálunk, sikerült megszöknöd.");
                                 Program.nyert = true;
                             }
-                            else if (targyak.First(x => x.neve == "ablak").lathato)
+                            else if (Ellenorzo.Lathato("ablak"))
                             {
                                 Console.WriteLine("Északra nem mehetek, útban van az ablak");
                             }
@@ -335,7 +325,7 @@ namespace Szabadulo_szoba
                     switch (jatekos.Helye)
                     {
                         case "0":
-                            if(haz.Where(x => x.id== jatekos.Helye).First().nyugat)
+                            if(haz.First(x => x.id == jatekos.Helye).nyugat)
                             {
                                 jatekos.Helye = "1";
                                 Console.WriteLine(haz.First(x => x.id == jatekos.Helye).leiras);

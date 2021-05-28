@@ -34,26 +34,26 @@ namespace Szabadulo_szoba
                         {
                             Console.WriteLine("Mit nyissak ki?");
                         }
-                        else if(Parancsok.haz.First(x=> x.id==Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x=>x.neve==ertelmezett[1])) ||Parancsok.jatekos.Leltar.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])))
+                        else if (Ellenorzo.Elerheto(ertelmezett[1]))
                         {
-                                
-                                parancsok.Nyisd(ertelmezett[1], ertelmezett[2]);
+
+                            parancsok.Nyisd(ertelmezett[1], ertelmezett[2]);
                         }
                         else
                         {
                             Console.WriteLine($"A(z) {ertelmezett[1]} nincs itt.");
                         }
-                        
+
                         break;
                     case "tedd":
                     case "vedd":
-                        if(Parancsok.jatekos.Leltar.Count==0 && ertelmezett[3]=="le")
+                        if (Parancsok.jatekos.Leltar.Count == 0 && ertelmezett[3] == "le")
                         {
                             Console.WriteLine("Nincs a leltáramban semmi.");
                         }
-                       else if (Parancsok.targyak.Select(x => x.neve).Contains(ertelmezett[1]))
+                        else if (Ellenorzo.Letezik(ertelmezett))
                         {
-                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).lathato)
+                            if (Ellenorzo.Lathato(ertelmezett[1]))
                             {
                                 parancsok.TargyMozgatas(ertelmezett[1], ertelmezett[3]);
                             }
@@ -68,17 +68,16 @@ namespace Szabadulo_szoba
                         }
                         break;
                     case "húzd":
-                        if (Parancsok.haz.First(x => x.id == Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])))
+                        if (Ellenorzo.Elerheto(ertelmezett[1]))
+                        {
+                            if (Ellenorzo.Lathato(ertelmezett[1]))
                             {
 
-
-                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).huzhato)
-                            {
                                 parancsok.Huzas(ertelmezett[1]);
                             }
                             else
                             {
-                                Console.WriteLine($"A(z) {ertelmezett[1]} nem húzható.");
+                                Console.WriteLine($"A(z) {ertelmezett[1]} nem látható.");
                             }
                         }
                         else
@@ -87,15 +86,15 @@ namespace Szabadulo_szoba
                         }
                         break;
                     case "törd":
-                        if ((Parancsok.haz.First(x => x.id == Parancsok.jatekos.Helye).Tartalma.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1])) || Parancsok.jatekos.Leltar.Contains(Parancsok.targyak.First(x => x.neve == ertelmezett[1]))))
+                        if (Ellenorzo.Elerheto(ertelmezett[1]))
                         {
-                            if (Parancsok.targyak.First(x => x.neve == ertelmezett[1]).torheto || Parancsok.targyak.First(x => x.neve == ertelmezett[2]).torheto)
+                            if(Ellenorzo.Lathato(ertelmezett[1]) || Ellenorzo.Lathato(ertelmezett[2]))
                             {
                                 parancsok.Tores(ertelmezett[1], ertelmezett[2]);
                             }
                             else
                             {
-                                Console.WriteLine($"A(z) {ertelmezett[1]} nem törhető");
+                                Console.WriteLine($"A(z) {ertelmezett[1]} nem látható");
                             }
                         }
                         else
@@ -111,11 +110,11 @@ namespace Szabadulo_szoba
                         parancsok.Mentés();
                         break;
                     case "betöltés":
-                        if(File.Exists("mentes.sav"))
+                        if (File.Exists("mentes.sav"))
                         {
                             Console.WriteLine("Biztosan betöltöd egy korábbi mentésed? Jelenlegi állásod elveszhet. (y/n)");
                             string valasz = Console.ReadLine().ToLower();
-                            if(valasz=="y" ||valasz =="yes" ||valasz == "igen")
+                            if (valasz == "y" || valasz == "yes" || valasz == "igen")
                             {
                                 parancsok.Betoltes();
                             }
@@ -137,9 +136,11 @@ namespace Szabadulo_szoba
 
             Console.ReadKey();
         }
+
         
-       
-       
+
+
+
 
         /// <summary>
         /// feldolgozza a felhasználó áálltal megadott sort és elrendezi úgy hogy értelmezhető legyen a programnak.
