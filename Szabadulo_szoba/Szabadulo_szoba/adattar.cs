@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Szabadulo_szoba
 {
+    [Serializable]
     class targy
     {
         public string id { get;}
@@ -55,7 +56,7 @@ namespace Szabadulo_szoba
             return String.Format($"{id};{neve};{kezdoHelye};{leiras};{felveheto};{nyithato};{huzhato};{torheto};{lathato};{string.Join(";", Kapcsolat)}");
         }
     }
-
+    [Serializable]
     class szoba
     {
         public string id { get; }
@@ -81,7 +82,6 @@ namespace Szabadulo_szoba
                 this.del = (data[5] == "1" || data[5] == "True");
                 this.nyugat = (data[6] == "1" || data[6] == "True");
 
-                //külön methode
                 if (data.Length > 7)
                 {
                     TartalomFeltoltes(data);
@@ -110,7 +110,7 @@ namespace Szabadulo_szoba
             return String.Format($"{id};{neve};{leiras};{eszak};{kelet};{del};{nyugat};{string.Join(';', Tartalma.Select(x => x.neve).ToArray())}");
         }
     }
-
+    [Serializable]
     class jatekos
     {
         string helye = "0";

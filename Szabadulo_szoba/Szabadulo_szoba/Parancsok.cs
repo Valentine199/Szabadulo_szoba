@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Szabadulo_szoba
 {
@@ -353,7 +355,7 @@ namespace Szabadulo_szoba
         /// </summary>
         public void Betoltes()
         {
-            targyak.Clear();
+            /*targyak.Clear();
             haz.Clear();
             jatekos.Leltar.Clear();
 
@@ -392,6 +394,21 @@ namespace Szabadulo_szoba
 
                 Console.WriteLine("Betöltés sikertelen. Hiányzó sorok. Kezdeti állapot betöltése");
                 Inicializalas();
+            }*/
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("mentes.sav", FileMode.Open, FileAccess.Read);
+
+            try
+            {
+                targyak = (List<targy>)formatter.Deserialize(stream);
+                haz = (List<szoba>)formatter.Deserialize(stream);
+                jatekos = (jatekos)formatter.Deserialize(stream);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Betöltés sikertelen. Hibás fájl. Kezdeti állapot betöltése");
+                Inicializalas();
             }
             
         }
@@ -401,12 +418,22 @@ namespace Szabadulo_szoba
         /// </summary>
         public void Mentés()
         {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("mentes.sav", FileMode.Create, FileAccess.Write);
+
+            formatter.Serialize(stream, targyak);
+            formatter.Serialize(stream, haz);
+            formatter.Serialize(stream, jatekos);
+            stream.Close();
+            
+
+/*
             List<string> mentes = new List<string>();
             mentes.Add(string.Join('\t', targyak));
             mentes.Add(string.Join('\t', haz));
             mentes.Add(string.Join('\t', jatekos));
             File.WriteAllLines("mentes.sav", mentes);
-            zavartalanBetoltes = true;
+            zavartalanBetoltes = true;*/
             Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
         }
         public void Inicializalas()
