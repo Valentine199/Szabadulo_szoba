@@ -8,12 +8,14 @@ namespace Szabadulo_szoba
     class Program
     {
        public static Parancsok parancsok = new Parancsok();
-       public static bool nyert = false;
+        public static bool nyert = false;
+
         static void Main()
         {
+
             //A játék addig tart amíg a nyert nem lesz true. addig folyamatosan kér új parancsokat.
 
-            parancsok.Inicializalas();
+            TaroloEljarasok.Inicializalas();
 
             Console.WriteLine("Adjon meg egy parancsot");
             do
@@ -107,7 +109,7 @@ namespace Szabadulo_szoba
                         break;
                     case "mentés":
                     case "ments":
-                        parancsok.Mentés();
+                        TaroloEljarasok.Mentés();
                         break;
                     case "betöltés":
                         if (File.Exists("mentes.sav"))
@@ -116,7 +118,7 @@ namespace Szabadulo_szoba
                             string valasz = Console.ReadLine().ToLower();
                             if (valasz == "y" || valasz == "yes" || valasz == "igen")
                             {
-                                parancsok.Betoltes();
+                                TaroloEljarasok.Betoltes();
                             }
                             else
                             {

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace Szabadulo_szoba
 {
@@ -11,7 +15,6 @@ namespace Szabadulo_szoba
         public string id { get;}
         public string neve { get; }
         public string kezdoHelye { get; }
-        //public bool felVanVeve { get; set; } Nem biztos hogy szükséges.
         public string leiras { get;} 
         public bool felveheto { get; }
         public bool nyithato { get;}
@@ -47,8 +50,8 @@ namespace Szabadulo_szoba
             {
 
                 Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
-                Parancsok.zavartalanBetoltes = false;
-                Program.parancsok.Inicializalas();
+                
+                TaroloEljarasok.Inicializalas();
             }
         }
         public override string ToString()
@@ -91,8 +94,7 @@ namespace Szabadulo_szoba
             {
 
                 Console.WriteLine("Hiba a szobák betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
-                Parancsok.zavartalanBetoltes = false;
-                Program.parancsok.Inicializalas();
+                TaroloEljarasok.Inicializalas();
             }
 
         }
@@ -139,8 +141,7 @@ namespace Szabadulo_szoba
 
                 Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
                 jatekosBetoltes("0");
-                Parancsok.zavartalanBetoltes = false;
-                Program.parancsok.Inicializalas();
+                TaroloEljarasok.Inicializalas();
             }
 
         }
@@ -150,6 +151,76 @@ namespace Szabadulo_szoba
         public override string ToString()
         {
             return string.Format($"{Helye};{string.Join(';', Leltar.Select(x => x.id).ToArray())}");
+        }
+    }
+
+    class TaroloEljarasok
+    {
+        public static void Inicializalas()
+        {
+            Parancsok.targyak.Clear();
+            Parancsok.haz.Clear();
+            Parancsok.jatekos.Leltar.Clear();
+
+            foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))
+            {
+                Parancsok.targyak.Add(new targy(targyAdat));
+            }
+
+           foreach (string szobaAdat in File.ReadLines("szobaInit.txt").Skip(1))
+            {
+                Parancsok.haz.Add(new szoba(szobaAdat));
+            }
+
+            foreach (szoba szobak in Parancsok.haz)
+            {
+                var temp = Parancsok.targyak.Select(x => x).Where(x => x.kezdoHelye == szobak.id);
+                foreach (targy targy in temp)
+                {
+                    szobak.Tartalma.Add(targy);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Az összes tárgy, szoba és játékos attributomot lementi. 
+        /// <para>Először összegyűjti az adatokat majd elválasztva sorokba egymás mellé helyezi az elemeket. Egy sor felépítése: tárgy adatai tab szoba adatai tab játékos adatai.</para>
+        /// </summary>
+        public static void Mentés()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("mentes.sav", FileMode.Create, FileAccess.Write);
+
+            formatter.Serialize(stream, Parancsok.targyak);
+            formatter.Serialize(stream, Parancsok.haz);
+            formatter.Serialize(stream, Parancsok.jatekos);
+            stream.Close();
+
+            Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
+        }
+        /// <summary>
+        /// Kitörli az eddigi tárgyakat és helyükre a mentett elemeket helyezi.
+        /// </summary>
+        public static void Betoltes()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("mentes.sav", FileMode.Open, FileAccess.Read);
+
+            try
+            {
+                Parancsok.targyak = (List<targy>)formatter.Deserialize(stream);
+                Parancsok.haz = (List<szoba>)formatter.Deserialize(stream);
+                Parancsok.jatekos = (jatekos)formatter.Deserialize(stream);
+                stream.Close();
+                Console.WriteLine("A betöltés sikeres.");
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Betöltés sikertelen. Hibás fájl. Kezdeti állapot betöltése");
+                Inicializalas();
+            }
+
         }
     }
 }

@@ -13,3 +13,4 @@ E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.dll
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.pdb
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\obj\Debug\netcoreapp3.1\Szabadulo_szoba.genruntimeconfig.cache
+E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\targyInit.xml

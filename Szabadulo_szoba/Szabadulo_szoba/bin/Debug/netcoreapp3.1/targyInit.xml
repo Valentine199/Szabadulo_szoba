@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <szoba id="0">
+    <neve>nappali</neve>
+    <leiras>A nappaliban vagy. Itt található egy szekrény. Nyugatra látsz egy ajtót.</leiras>
+    <eszak>False</eszak>
+    <kelet>False</kelet>
+    <del>False</del>
+    <nyugat>False</nyugat>
+  </szoba>
+  <szoba>
+    <id>1</id>
+    <neve>fürdőszoba</neve>
+    <leiras>A fürdőszobában vagy. Itt található egy kád.</leiras>
+    <eszak>False</eszak>
+    <kelet>True</kelet>
+    <del>False</del>
+    <nyugat>False</nyugat>
+  </szoba>
+</root>

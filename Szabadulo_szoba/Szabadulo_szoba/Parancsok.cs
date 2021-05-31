@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Text;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace Szabadulo_szoba
 {
@@ -14,7 +12,6 @@ namespace Szabadulo_szoba
         public static jatekos jatekos = new jatekos();
         public static List<targy> targyak = new List<targy>();
         public static List<szoba> haz = new List<szoba>();
-        public static bool zavartalanBetoltes=true;
 
         /// <summary>
         /// Kiirja a leltár elemeit.
@@ -64,8 +61,6 @@ namespace Szabadulo_szoba
                 return haz.First(x => x.id == jatekos.Helye).leiras;
             }
         }
-
-        
 
         /// <summary>
         /// Kinyitja a paraméterben megadott tárgyat. 
@@ -351,71 +346,6 @@ namespace Szabadulo_szoba
                     Console.WriteLine($"Arra nincs kijárat");
                     break;
             }
-        }
-
-        /// <summary>
-        /// Kitörli az eddigi tárgyakat és helyükre a mentett elemeket helyezi.
-        /// </summary>
-        public void Betoltes()
-        {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("mentes.sav", FileMode.Open, FileAccess.Read);
-
-            try
-            {
-                targyak = (List<targy>)formatter.Deserialize(stream);
-                haz = (List<szoba>)formatter.Deserialize(stream);
-                jatekos = (jatekos)formatter.Deserialize(stream);
-                stream.Close();
-                Console.WriteLine("A betöltés sikeres.");
-            }
-            catch (Exception)
-            {
-
-                Console.WriteLine("Betöltés sikertelen. Hibás fájl. Kezdeti állapot betöltése");
-                Inicializalas();
-            }
-            
-        }
-        /// <summary>
-        /// Az összes tárgy, szoba és játékos attributomot lementi. 
-        /// <para>Először összegyűjti az adatokat majd elválasztva sorokba egymás mellé helyezi az elemeket. Egy sor felépítése: tárgy adatai tab szoba adatai tab játékos adatai.</para>
-        /// </summary>
-        public void Mentés()
-        {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("mentes.sav", FileMode.Create, FileAccess.Write);
-
-            formatter.Serialize(stream, targyak);
-            formatter.Serialize(stream, haz);
-            formatter.Serialize(stream, jatekos);
-            stream.Close();
-            
-            Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
-        }
-        public void Inicializalas()
-        {
-            targyak.Clear();
-            haz.Clear();
-            jatekos.Leltar.Clear();
-
-            foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))
-            {
-                targyak.Add(new targy(targyAdat));
-            }
-            foreach (string szobaAdat in File.ReadLines("szobaInit.txt").Skip(1))
-            {
-                haz.Add(new szoba(szobaAdat));
-            }
-
-            foreach (szoba szobak in haz)
-            {
-                var temp = targyak.Select(x => x).Where(x => x.kezdoHelye == szobak.id);
-                foreach (targy targy in temp)
-                {
-                    szobak.Tartalma.Add(targy);
-                }
-            }
-        }
+        }   
     }
 }
