@@ -262,7 +262,10 @@ namespace Szabadulo_szoba
                             {
                                 Console.WriteLine("Ehhez egy olyan tárgy kell ami nincs a leltáramban.");
                             }
-                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ez a két tárgy nem tudja betörni egymást.");
                         }
                         break;
 
@@ -355,46 +358,6 @@ namespace Szabadulo_szoba
         /// </summary>
         public void Betoltes()
         {
-            /*targyak.Clear();
-            haz.Clear();
-            jatekos.Leltar.Clear();
-
-            string[] betoltottAdat = File.ReadAllLines("mentes.sav");
-
-            try
-            {
-                foreach (string betoltottTargyak in betoltottAdat[0].Split('\t'))
-                {
-                    targyak.Add(new targy(betoltottTargyak));
-                    if(!zavartalanBetoltes)
-                    {
-                        return;
-                    }
-                }
-                foreach (string betoltottSzobak in betoltottAdat[1].Split('\t'))
-                {
-                    haz.Add(new szoba(betoltottSzobak));
-                    if (!zavartalanBetoltes)
-                    {
-                        return;
-                    }
-                }
-                foreach (string betoltottJatekos in betoltottAdat[2].Split('\t'))
-                {
-                    jatekos.jatekosBetoltes(betoltottJatekos);
-                    if (!zavartalanBetoltes)
-                    {
-                        return;
-                    }
-                }
-                Console.WriteLine("Betöltés sikeres");
-            }
-            catch (Exception)
-            {
-
-                Console.WriteLine("Betöltés sikertelen. Hiányzó sorok. Kezdeti állapot betöltése");
-                Inicializalas();
-            }*/
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream("mentes.sav", FileMode.Open, FileAccess.Read);
 
@@ -403,6 +366,8 @@ namespace Szabadulo_szoba
                 targyak = (List<targy>)formatter.Deserialize(stream);
                 haz = (List<szoba>)formatter.Deserialize(stream);
                 jatekos = (jatekos)formatter.Deserialize(stream);
+                stream.Close();
+                Console.WriteLine("A betöltés sikeres.");
             }
             catch (Exception)
             {
@@ -426,14 +391,6 @@ namespace Szabadulo_szoba
             formatter.Serialize(stream, jatekos);
             stream.Close();
             
-
-/*
-            List<string> mentes = new List<string>();
-            mentes.Add(string.Join('\t', targyak));
-            mentes.Add(string.Join('\t', haz));
-            mentes.Add(string.Join('\t', jatekos));
-            File.WriteAllLines("mentes.sav", mentes);
-            zavartalanBetoltes = true;*/
             Console.WriteLine("A mentés sikerült a mentes.sav fájlba.");
         }
         public void Inicializalas()
