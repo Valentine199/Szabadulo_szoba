@@ -6,9 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="targyInit.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="szobaInit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

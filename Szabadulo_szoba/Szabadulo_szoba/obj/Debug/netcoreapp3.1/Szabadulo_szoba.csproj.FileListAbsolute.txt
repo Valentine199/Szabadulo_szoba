@@ -1,5 +1,4 @@
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.exe
-E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\targyInit.txt
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.deps.json
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.runtimeconfig.json
 E:\MUNKA\Szabadulo_szoba\Szabadulo_szoba\Szabadulo_szoba\bin\Debug\netcoreapp3.1\Szabadulo_szoba.runtimeconfig.dev.json

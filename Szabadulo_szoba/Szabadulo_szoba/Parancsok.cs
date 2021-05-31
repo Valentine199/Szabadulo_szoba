@@ -226,8 +226,7 @@ namespace Szabadulo_szoba
         /// <param name="mivel"></param>
         public void Tores(string mit, string mivel)
         {
-            if(targyak.First(x => x.neve == mit).torheto || Parancsok.targyak.First(x => x.neve == mivel).torheto)
-            {
+            
                 switch (mit)
                 {
                     case "ablak":
@@ -237,7 +236,7 @@ namespace Szabadulo_szoba
                             switch (mit)
                             {
                                 case "feszítővas":
-                                    Console.WriteLine("Mit törjek össze?");
+                                    Console.WriteLine("Mit törjek össze vele?");
                                     break;
                                 case "ablak":
                                     Console.WriteLine("A kezeddel nem tudod összetörni, mert megvágnád magad.");
@@ -265,13 +264,9 @@ namespace Szabadulo_szoba
                         break;
 
                     default:
+                    Console.WriteLine("Ezt nem lehet összetörni.");
                         break;
                 }
-            }
-            else
-            {
-                Console.WriteLine("Ezek a tárgyak nem tudják egymást összetörni.");
-            }
         }
         /// <summary>
         /// A játékos helyéhez képest eldönti, hogy az elmozdulás lehetséges vagy változtat-e bármin. Ha igen végrehajtja a változtatásokat.
@@ -284,7 +279,7 @@ namespace Szabadulo_szoba
                 case "észak":
                     switch (jatekos.Helye)
                     {
-                        case "0":
+                        case 0:
                             
                             if(haz.First(x=> x.id== jatekos.Helye).eszak)
                             {
@@ -300,7 +295,7 @@ namespace Szabadulo_szoba
                                 Console.WriteLine("Északra csak a szekrény van");
                             }
                             break;
-                        case "1":
+                        case 1:
                             Console.WriteLine("Északra nincs kijárat.");
                             break;
                         default:
@@ -310,11 +305,11 @@ namespace Szabadulo_szoba
                 case "kelet":
                     switch (jatekos.Helye)
                     {
-                        case "0":
+                        case 0:
                             Console.WriteLine("Keletre nincs kijárat ");
                             break;
-                        case "1":
-                            jatekos.Helye = "0";
+                        case 1:
+                            jatekos.Helye = 0;
                             Console.WriteLine(haz.First(x => x.id == jatekos.Helye).leiras);
                             break;
                         default:
@@ -324,10 +319,10 @@ namespace Szabadulo_szoba
                 case "nyugat":
                     switch (jatekos.Helye)
                     {
-                        case "0":
+                        case 0:
                             if(haz.First(x => x.id == jatekos.Helye).nyugat)
                             {
-                                jatekos.Helye = "1";
+                                jatekos.Helye =1;
                                 Console.WriteLine(haz.First(x => x.id == jatekos.Helye).leiras);
                             }
                             else
@@ -335,7 +330,7 @@ namespace Szabadulo_szoba
                                 Console.WriteLine("Nem tudok arra menni, zárva van az ajtó.");
                             }
                             break;
-                        case "1":
+                        case 1:
                             Console.WriteLine("Arra nincs kijárat");
                             break;
                         default:

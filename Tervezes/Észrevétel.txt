@@ -5,6 +5,8 @@
 
 
 
-enum !
-ékezetek elvétele bevitelnél ! .normalize ??
-XML-ben tárolni elemeket.????
+
+
+
+
+kapcsolat null ha üres

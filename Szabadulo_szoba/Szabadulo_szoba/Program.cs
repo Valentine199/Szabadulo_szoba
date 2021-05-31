@@ -9,7 +9,6 @@ namespace Szabadulo_szoba
     {
        public static Parancsok parancsok = new Parancsok();
         public static bool nyert = false;
-
         static void Main()
         {
 

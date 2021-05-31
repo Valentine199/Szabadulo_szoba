@@ -9,28 +9,30 @@ using System.Xml;
 
 namespace Szabadulo_szoba
 {
+    public enum SzobaID {nappali, fürdőszoba }
+    public enum TargyID {szekrény, doboz, kulcs, ajtó, ablak, kád, feszítővas, ágy }
+
     [Serializable]
     class targy
     {
-        public string id { get;}
+        public int id { get;}
         public string neve { get; }
-        public string kezdoHelye { get; }
+        public int kezdoHelye { get; }
         public string leiras { get;} 
         public bool felveheto { get; }
         public bool nyithato { get;}
         public bool huzhato { get; }
         public bool torheto { get;}
         public bool lathato { get; set; }
-        private List<string> kapcsolat = new List<string>();
-        public List<string> Kapcsolat { get => kapcsolat; set => kapcsolat = value; }
+        private List<int> kapcsolat = new List<int>();
+        public List<int> Kapcsolat { get => kapcsolat; set => kapcsolat = value; }
 
         
         public targy(XmlNode adat)
         {
 
-            this.id = adat["id"].InnerText;
+            this.id = (int)TargyID.Parse(typeof(TargyID), (adat["neve"].InnerText)) ;
             this.neve = adat["neve"].InnerText;
-            this.kezdoHelye = adat["helye"].InnerText;
             this.leiras = adat["leiras"].InnerText;
 
             this.felveheto = bool.Parse(adat["felveheto"].InnerText);
@@ -38,15 +40,25 @@ namespace Szabadulo_szoba
             this.huzhato = bool.Parse(adat["huzhato"].InnerText);
             this.torheto = bool.Parse(adat["torheto"].InnerText);
             this.lathato = bool.Parse(adat["lathato"].InnerText);
+
+            if(SzobaID.IsDefined(typeof(SzobaID), adat["helye"].InnerText))
+            {
+               this.kezdoHelye = (int)(SzobaID.Parse(typeof(SzobaID), (adat["helye"].InnerText)));
+            }
+            
+
             KapcsolatFeltoltese(adat["kapcsolat"].InnerText);
         }
 
         private void KapcsolatFeltoltese(string adat)
         {
-            string[] kapcsolatok = adat.Split(';');
-            foreach (string elem in kapcsolatok)
+            if (adat != "")
             {
-                Kapcsolat.Add(elem);
+                string[] kapcsolatok = adat.Split(';');
+                foreach (string elem in kapcsolatok)
+                {
+                    Kapcsolat.Add((int) TargyID.Parse(typeof(TargyID), adat));
+                }
             }
         }
 
@@ -58,7 +70,7 @@ namespace Szabadulo_szoba
     [Serializable]
     class szoba
     {
-        public string id { get; }
+        public int id { get; }
         public string neve { get; }
         public string leiras { get; }
         public bool eszak { get; set; }
@@ -69,7 +81,7 @@ namespace Szabadulo_szoba
         public List<targy> Tartalma { get => tartalma; set => tartalma = value; }
         public szoba (XmlNode adat)
         {
-            this.id = adat["id"].InnerText;
+            this.id = (int)SzobaID.Parse(typeof(SzobaID), (adat["neve"].InnerText));
             this.neve = adat["neve"].InnerText;
             this.leiras = adat["leiras"].InnerText;
             this.eszak = bool.Parse(adat["eszak"].InnerText);
@@ -86,38 +98,15 @@ namespace Szabadulo_szoba
     [Serializable]
     class jatekos
     {
-        string helye = "0";
+        int helye = 0;
         List<targy> leltar = new List<targy>();
 
         public jatekos()
         {
 
         }
-        public void jatekosBetoltes(string adat)
-        {
-            try
-            {
-                string[] data = adat.Split(';');
-                Helye = data[0];
-                if (data.Length > 1)
-                {
-                    for (int i = 1; i < data.Length; i++)
-                    {
-                        Leltar.Add(Parancsok.targyak.First(x => x.id == data[i]));
-                    }
-                }
-            }
-            catch (Exception)
-            {
 
-                Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
-                jatekosBetoltes("0");
-                TaroloEljarasok.Inicializalas();
-            }
-
-        }
-
-        public string Helye { get => helye; set => helye = value; }
+        public int Helye { get => helye; set => helye = value; }
         internal List<targy> Leltar { get => leltar; set => leltar = value; }
         public override string ToString()
         {
@@ -147,7 +136,7 @@ namespace Szabadulo_szoba
                 Parancsok.haz.Add(new szoba(node));
             }
 
-            foreach (szoba szobak in Parancsok.haz)
+           foreach (szoba szobak in Parancsok.haz)
             {
                 var temp = Parancsok.targyak.Select(x => x).Where(x => x.kezdoHelye == szobak.id);
                 foreach (targy targy in temp)
@@ -191,7 +180,7 @@ namespace Szabadulo_szoba
             }
             catch (Exception)
             {
-
+                stream.Close();
                 Console.WriteLine("Betöltés sikertelen. Hibás fájl. Kezdeti állapot betöltése");
                 Inicializalas();
             }

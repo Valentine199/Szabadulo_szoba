@@ -10,7 +10,15 @@ namespace Szabadulo_szoba
         //Ellenőrzi, hogy az adott tárgy látható-e.
         public static bool Lathato(string nev)
         {
-            return Parancsok.targyak.First(x => x.neve == nev).lathato;
+            if(nev=="")
+            {
+                return false;
+            }
+            else
+            {
+                return Parancsok.targyak.First(x => x.neve == nev).lathato;
+            }
+            
         }
         //Ellenőrzi, hogy az adott elem ugyan abban a szobában van mint a játékos, vagy a játékos leltárában van-e?
         public static bool Elerheto(string nev)

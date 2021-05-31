@@ -1,9 +1,0 @@
-id;neve;helye;leiras;felveheto;nyithato;huzhato;torheto;lathato;kapcsolat	
-1;szekrény;0;Egy öreg szekrény, még csak be sincs zárva.;0;1;1;0;1;0
-2;doboz;0;Egy kartondoboz, mintha nem lenne teljesen üres.;1;1;0;0;0;0
-3;kulcs;0;Egy ezüst kulcs. Vajon mit nyithat?;1;0;0;0;0;4
-4;ajtó;0;Egy zárt ajtó;0;1;0;0;1;3
-5;ablak;0;Szép a kiláts. Bárcsak odakinmt lehetnék;0;0;0;1;0;7
-6;kád;1;A kádban egy feszítővasat látsz.;0;0;0;0;1;0
-7;feszítővas;1;Egy kemény feszítővas.;1;0;0;0;0;5
-8;ágy;2;Kényelmes ágy;0;0;0;0;0;0
