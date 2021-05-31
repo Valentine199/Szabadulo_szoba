@@ -1,20 +1,99 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <szoba id="0">
-    <neve>nappali</neve>
-    <leiras>A nappaliban vagy. Itt található egy szekrény. Nyugatra látsz egy ajtót.</leiras>
-    <eszak>False</eszak>
-    <kelet>False</kelet>
-    <del>False</del>
-    <nyugat>False</nyugat>
-  </szoba>
-  <szoba>
+  <targy>
     <id>1</id>
-    <neve>fürdőszoba</neve>
-    <leiras>A fürdőszobában vagy. Itt található egy kád.</leiras>
-    <eszak>False</eszak>
-    <kelet>True</kelet>
-    <del>False</del>
-    <nyugat>False</nyugat>
-  </szoba>
+    <neve>szekrény</neve>
+    <helye>0</helye>
+    <leiras>Egy öreg szekrény, még csak be sincs zárva.</leiras>
+    <felveheto>False</felveheto>
+    <nyihato>True</nyihato>
+    <huzhato>True</huzhato>
+    <torheto>False</torheto>
+    <lathato>True</lathato>
+    <kapcsolat>0</kapcsolat>
+  </targy>
+  <targy>
+    <id>2</id>
+    <neve>doboz</neve>
+    <helye>0</helye>
+    <leiras>Egy kartondoboz, mintha nem lenne teljesen üres.</leiras>
+    <felveheto>True</felveheto>
+    <nyihato>True</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>False</lathato>
+    <kapcsolat>0</kapcsolat>
+  </targy>
+  <targy>
+    <id>3</id>
+    <neve>kulcs</neve>
+    <helye>0</helye>
+    <leiras>Egy ezüst kulcs. Vajon mit nyithat?</leiras>
+    <felveheto>True</felveheto>
+    <nyihato>False</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>False</lathato>
+    <kapcsolat>4</kapcsolat>
+  </targy>
+  <targy>
+    <id>4</id>
+    <neve>ajtó</neve>
+    <helye>0</helye>
+    <leiras>Egy zárt ajtó</leiras>
+    <felveheto>False</felveheto>
+    <nyihato>True</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>True</lathato>
+    <kapcsolat>3</kapcsolat>
+  </targy>
+  <targy>
+    <id>5</id>
+    <neve>ablak</neve>
+    <helye>0</helye>
+    <leiras>Szép a kiláts. Bárcsak odakinmt lehetnék</leiras>
+    <felveheto>False</felveheto>
+    <nyihato>False</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>True</torheto>
+    <lathato>False</lathato>
+    <kapcsolat>7</kapcsolat>
+  </targy>
+  <targy>
+    <id>6</id>
+    <neve>kád</neve>
+    <helye>1</helye>
+    <leiras>A kádban egy feszítővasat látsz.</leiras>
+    <felveheto>False</felveheto>
+    <nyihato>False</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>True</lathato>
+    <kapcsolat>0</kapcsolat>
+  </targy>
+  <targy>
+    <id>7</id>
+    <neve>feszítővas</neve>
+    <helye>1</helye>
+    <leiras>Egy kemény feszítővas.</leiras>
+    <felveheto>True</felveheto>
+    <nyihato>False</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>True</lathato>
+    <kapcsolat>5</kapcsolat>
+  </targy>
+  <targy>
+    <id>8</id>
+    <neve>ágy</neve>
+    <helye>3</helye>
+    <leiras>Kényelmes ágy.</leiras>
+    <felveheto>False</felveheto>
+    <nyihato>False</nyihato>
+    <huzhato>False</huzhato>
+    <torheto>False</torheto>
+    <lathato>False</lathato>
+    <kapcsolat>0</kapcsolat>
+  </targy>
 </root>

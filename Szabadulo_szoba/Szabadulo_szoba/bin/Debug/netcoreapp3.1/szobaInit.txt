@@ -1,3 +1,0 @@
-id;neve;leirasa;eszak;kelet;del;nyugat
-0;nappali;A nappaliban vagy. Itt található egy szekrény. Nyugatra látsz egy ajtót.;0;0;0;0
-1;fürdőszoba;A fürdőszobában vagy. Itt található egy kád.;0;1;0;0

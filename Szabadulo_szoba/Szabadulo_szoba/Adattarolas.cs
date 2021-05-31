@@ -25,35 +25,31 @@ namespace Szabadulo_szoba
         public List<string> Kapcsolat { get => kapcsolat; set => kapcsolat = value; }
 
         
-
-        public targy(string sor)
+        public targy(XmlNode adat)
         {
-            try
-            {
-                string[] data = sor.Split(';');
-                this.id = data[0];
-                this.neve = data[1];
-                this.kezdoHelye = data[2];
-                this.leiras = data[3];
 
-                this.felveheto = (data[4] == "1" || data[4] == "True");
-                this.nyithato = (data[5] == "1" || data[5] == "True");
-                this.huzhato = (data[6] == "1" || data[6] == "True");
-                this.torheto = (data[7] == "1" || data[7] == "True");
-                this.lathato = (data[8] == "1" || data[8] == "True");
-                for (int i = 9; i < data.Length; i++)
-                {
-                    kapcsolat.Add(data[i]);
-                }
-            }
-            catch (Exception)
-            {
+            this.id = adat["id"].InnerText;
+            this.neve = adat["neve"].InnerText;
+            this.kezdoHelye = adat["helye"].InnerText;
+            this.leiras = adat["leiras"].InnerText;
 
-                Console.WriteLine("Hiba a tárgyak betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
-                
-                TaroloEljarasok.Inicializalas();
+            this.felveheto = bool.Parse(adat["felveheto"].InnerText);
+            this.nyithato = bool.Parse(adat["nyihato"].InnerText);
+            this.huzhato = bool.Parse(adat["huzhato"].InnerText);
+            this.torheto = bool.Parse(adat["torheto"].InnerText);
+            this.lathato = bool.Parse(adat["lathato"].InnerText);
+            KapcsolatFeltoltese(adat["kapcsolat"].InnerText);
+        }
+
+        private void KapcsolatFeltoltese(string adat)
+        {
+            string[] kapcsolatok = adat.Split(';');
+            foreach (string elem in kapcsolatok)
+            {
+                Kapcsolat.Add(elem);
             }
         }
+
         public override string ToString()
         {
             return String.Format($"{id};{neve};{kezdoHelye};{leiras};{felveheto};{nyithato};{huzhato};{torheto};{lathato};{string.Join(";", Kapcsolat)}");
@@ -71,40 +67,15 @@ namespace Szabadulo_szoba
         public bool nyugat { get; set; }
         List<targy> tartalma = new List<targy>();
         public List<targy> Tartalma { get => tartalma; set => tartalma = value; }
-
-        public szoba(string adat)
+        public szoba (XmlNode adat)
         {
-            try
-            {
-                string[] data = adat.Split(';');
-                this.id = data[0];
-                this.neve = data[1];
-                this.leiras = data[2];
-                this.eszak = (data[3] == "1" || data[3] == "True");
-                this.kelet = (data[4] == "1" || data[4] == "True");
-                this.del = (data[5] == "1" || data[5] == "True");
-                this.nyugat = (data[6] == "1" || data[6] == "True");
-
-                if (data.Length > 7)
-                {
-                    TartalomFeltoltes(data);
-                }
-            }
-            catch (Exception)
-            {
-
-                Console.WriteLine("Hiba a szobák betöltésekor. Hibás mentés, a kezdeti állapot betöltése");
-                TaroloEljarasok.Inicializalas();
-            }
-
-        }
-
-        private void TartalomFeltoltes(string[] data)
-        {
-            for (int i = 7; i < data.Length; i++)
-            {
-                tartalma.Add(Parancsok.targyak.First(x => x.neve == data[i]));
-            }
+            this.id = adat["id"].InnerText;
+            this.neve = adat["neve"].InnerText;
+            this.leiras = adat["leiras"].InnerText;
+            this.eszak = bool.Parse(adat["eszak"].InnerText);
+            this.kelet = bool.Parse(adat["kelet"].InnerText);
+            this.del = bool.Parse(adat["del"].InnerText);
+            this.nyugat = bool.Parse(adat["nyugat"].InnerText);
         }
 
         public override string ToString()
@@ -162,14 +133,18 @@ namespace Szabadulo_szoba
             Parancsok.haz.Clear();
             Parancsok.jatekos.Leltar.Clear();
 
-            foreach (string targyAdat in File.ReadAllLines("targyInit.txt").Skip(1))
+            XmlDocument doc = new XmlDocument();
+            doc.Load("targyInit.xml");
+
+            foreach (XmlNode node in doc.DocumentElement)
             {
-                Parancsok.targyak.Add(new targy(targyAdat));
+                Parancsok.targyak.Add(new targy(node));
             }
 
-           foreach (string szobaAdat in File.ReadLines("szobaInit.txt").Skip(1))
+            doc.Load("szobaInit.xml");
+            foreach (XmlNode node in doc.DocumentElement)
             {
-                Parancsok.haz.Add(new szoba(szobaAdat));
+                Parancsok.haz.Add(new szoba(node));
             }
 
             foreach (szoba szobak in Parancsok.haz)
