@@ -309,7 +309,7 @@ namespace Szabadulo_szoba
                             Console.WriteLine("Keletre nincs kijárat ");
                             break;
                         case 1:
-                            jatekos.Helye = 0;
+                            jatekos.Helye = (int)SzobaID.nappali;
                             Console.WriteLine(haz.First(x => x.id == jatekos.Helye).leiras);
                             break;
                         default:
@@ -322,7 +322,7 @@ namespace Szabadulo_szoba
                         case 0:
                             if(haz.First(x => x.id == jatekos.Helye).nyugat)
                             {
-                                jatekos.Helye =1;
+                                jatekos.Helye = (int)SzobaID.fürdőszoba;
                                 Console.WriteLine(haz.First(x => x.id == jatekos.Helye).leiras);
                             }
                             else

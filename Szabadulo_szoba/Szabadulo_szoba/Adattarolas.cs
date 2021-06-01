@@ -98,7 +98,7 @@ namespace Szabadulo_szoba
     [Serializable]
     class jatekos
     {
-        int helye = 0;
+        int helye = (int)SzobaID.nappali;
         List<targy> leltar = new List<targy>();
 
         public jatekos()
